@@ -1,0 +1,27 @@
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Buildozer and Android build artifacts
+.buildozer/
+bin/
+*.apk
+*.aab
+.gradle/
+
+# Python byte code and caches
+__pycache__/
+*.py[cod]
+*.class
+.pytest_cache/
+
+# Databases & local caches
+*.db
+*.sqlite3
+
+# Editor / OS
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store

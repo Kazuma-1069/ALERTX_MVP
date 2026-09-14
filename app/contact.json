@@ -1,0 +1,10 @@
+[
+  {
+    "id": "c_default_1",
+    "name": "Sarah Jenkins",
+    "phone": "+1 (555) 234-5678",
+    "relationship": "Spouse",
+    "is_enabled": true,
+    "is_primary": true
+  }
+]
