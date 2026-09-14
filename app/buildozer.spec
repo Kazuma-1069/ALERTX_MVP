@@ -19,7 +19,10 @@ version = 0.1.0
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy==2.3.1,kivymd==2.0.0,plyer,pyjnius,httpx,pydantic,sqlalchemy,materialyoucolor,asynckivy
+requirements = python3,kivy==2.3.1,https://github.com/kivymd/KivyMD/archive/master.zip,materialyoucolor,asynckivy,plyer,pyjnius,pillow
+
+# (str) python-for-android branch to use
+p4a.branch = develop
 
 # (str) Supported orientation (one of landscape, sensorLandscape, portrait or all)
 orientation = portrait
@@ -42,8 +45,8 @@ android.sdk = 34
 # (str) Android NDK version to use
 android.ndk = 25b
 
-# (list) The Android archs to build for
-android.archs = arm64-v8a, armeabi-v7a
+# (list) The Android archs to build for (64-bit ARM for modern Android devices)
+android.archs = arm64-v8a
 
 # (bool) Automatically accept SDK license
 android.accept_sdk_license = True
