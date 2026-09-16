@@ -14,33 +14,55 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 from uuid import uuid4
 
-CONTACTS_FILE = Path(__file__).resolve().parent.parent / "contact.json"
-
 DEFAULT_SOS_MESSAGE_TEMPLATE = "🚨 ALERTX EMERGENCY ALERT: I need immediate help. Location: {maps_url}"
+
+
+def get_contacts_file_path() -> Path:
+    """Return a writable Path for contact storage across all platforms."""
+    try:
+        from kivy.app import App
+        app = App.get_running_app()
+        if app and hasattr(app, "user_data_dir") and app.user_data_dir:
+            p = Path(app.user_data_dir)
+            p.mkdir(parents=True, exist_ok=True)
+            return p / "contact.json"
+    except Exception:
+        pass
+    return Path(__file__).resolve().parent.parent / "contact.json"
 
 
 def load_contacts() -> List[Dict[str, Any]]:
     """Load all contacts from local storage.
 
-    Ensures backward compatibility with single-contact schemas.
+    Ensures backward compatibility with single-contact schemas and safe fallback.
     """
-    if not CONTACTS_FILE.exists():
-        # Initialize with Stitch design default contact
-        initial = [
-            {
-                "id": "c_default_1",
-                "name": "Sarah Jenkins",
-                "phone": "+1 (555) 234-5678",
-                "relationship": "Spouse",
-                "is_enabled": True,
-                "is_primary": True,
-            }
-        ]
+    initial = [
+        {
+            "id": "c_default_1",
+            "name": "Sarah Jenkins",
+            "phone": "+1 (555) 234-5678",
+            "relationship": "Spouse",
+            "is_enabled": True,
+            "is_primary": True,
+        }
+    ]
+
+    target = get_contacts_file_path()
+    if not target.exists():
+        # Check bundled fallback
+        bundled = Path(__file__).resolve().parent.parent / "contact.json"
+        if bundled.exists() and bundled != target:
+            try:
+                data = json.loads(bundled.read_text(encoding="utf-8"))
+                save_all_contacts(data)
+                return data if isinstance(data, list) else [data]
+            except Exception:
+                pass
         save_all_contacts(initial)
         return initial
 
     try:
-        data = json.loads(CONTACTS_FILE.read_text(encoding="utf-8"))
+        data = json.loads(target.read_text(encoding="utf-8"))
         if isinstance(data, list):
             return data
         elif isinstance(data, dict):
@@ -60,12 +82,16 @@ def load_contacts() -> List[Dict[str, Any]]:
     except Exception as exc:
         print(f"[AlertX Contacts] Failed to read contacts: {exc}")
 
-    return []
+    return initial
 
 
 def save_all_contacts(contacts: List[Dict[str, Any]]):
-    """Persist contact list to local JSON file."""
-    CONTACTS_FILE.write_text(json.dumps(contacts, indent=2), encoding="utf-8")
+    """Persist contact list to local JSON file safely."""
+    try:
+        target = get_contacts_file_path()
+        target.write_text(json.dumps(contacts, indent=2), encoding="utf-8")
+    except Exception as exc:
+        print(f"[AlertX Contacts] Warning: Could not write contacts: {exc}")
 
 
 def get_primary_contact() -> Optional[Dict[str, Any]]:

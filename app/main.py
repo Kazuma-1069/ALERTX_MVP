@@ -2458,10 +2458,6 @@ class AlertXApp(MDApp):
             self.calling,
         )
 
-        # Request native Android permissions if on device
-        from android.native_bridge import request_emergency_permissions
-        request_emergency_permissions()
-
         # Screen Navigation
         self.sm = ScreenManager(transition=FadeTransition(duration=0.15))
         self.sm.add_widget(HomeScreen())
@@ -2470,6 +2466,15 @@ class AlertXApp(MDApp):
         self.sm.add_widget(EmergencyScreen())
 
         return self.sm
+
+    def on_start(self):
+        """Schedule runtime Android permissions after window is ready."""
+        from kivy.clock import Clock
+        try:
+            from native_platform.native_bridge import request_emergency_permissions
+            Clock.schedule_once(lambda dt: request_emergency_permissions(), 0.5)
+        except Exception as exc:
+            print(f"[AlertX] Permission bridge error: {exc}")
 
     def go_home(self, *args):
         self.sm.current = "home"
