@@ -19,7 +19,7 @@ version = 0.1.0
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy==2.3.1,https://github.com/kivymd/KivyMD/archive/master.zip,materialyoucolor,asynckivy,plyer,pyjnius,pillow
+requirements = python3,kivy==2.3.1,https://github.com/kivymd/kivymd/archive/master.zip,materialyoucolor,asynckivy,plyer,pyjnius,pillow
 
 # (str) python-for-android branch to use
 p4a.branch = develop

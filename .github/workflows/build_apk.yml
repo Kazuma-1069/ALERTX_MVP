@@ -36,6 +36,12 @@ jobs:
           pip install --upgrade pip
           pip install buildozer cython virtualenv
 
+      - name: Pre-clone and patch python-for-android
+        run: |
+          mkdir -p app/.buildozer/android/platform
+          git clone -b develop https://github.com/kivy/python-for-android.git app/.buildozer/android/platform/python-for-android
+          sed -i 's/"lib\/clang\/\*\/lib\/linux"/"lib*\/clang\/\*\/lib\/linux"/g' app/.buildozer/android/platform/python-for-android/pythonforandroid/recipes/libthorvg/__init__.py
+
       - name: Build Android APK with Buildozer
         working-directory: ./app
         run: |
