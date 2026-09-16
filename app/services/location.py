@@ -16,11 +16,24 @@ class LocationService:
     def __init__(self):
         self._latest_fix: Optional[Dict[str, Any]] = None
         self._is_active = False
-        self._start_gps_listener()
 
-    def _start_gps_listener(self):
-        """Configure and start background GPS listening."""
+    def start_gps(self):
+        """Configure and start background GPS listening safely."""
+        if self._is_active:
+            return
+
         try:
+            from kivy.utils import platform
+            if platform == "android":
+                # On Android, verify permissions before touching LocationManager
+                try:
+                    from native_platform.native_bridge import check_permission
+                    if not check_permission("ACCESS_FINE_LOCATION") and not check_permission("ACCESS_COARSE_LOCATION"):
+                        self._is_active = False
+                        return
+                except Exception:
+                    pass
+
             from plyer import gps
 
             def _on_location(**kwargs):
@@ -42,7 +55,7 @@ class LocationService:
             gps.start(minTime=1000, minDistance=1)
             self._is_active = True
         except Exception:
-            # GPS hardware or Plyer unavailable on this platform
+            # GPS hardware, permissions, or Plyer unavailable on this platform
             self._is_active = False
 
     def get_current(self) -> Dict[str, Any]:

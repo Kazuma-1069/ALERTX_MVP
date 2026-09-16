@@ -39,6 +39,13 @@ def request_emergency_permissions(callback=None):
         ]
 
         def _on_permissions(perms, results):
+            try:
+                from kivy.app import App
+                app = App.get_running_app()
+                if app and hasattr(app, "location"):
+                    app.location.start_gps()
+            except Exception:
+                pass
             if callback:
                 callback(perms, results)
 
