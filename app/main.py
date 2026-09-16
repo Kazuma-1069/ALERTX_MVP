@@ -2443,29 +2443,67 @@ class AlertXApp(MDApp):
     green_light = ColorProperty(get_color_from_hex("#ECFDF5"))
 
     def build(self):
-        self.title = APP_NAME
-        self.theme_cls.theme_style = "Light"
+        import traceback
+        try:
+            self.title = APP_NAME
+            self.theme_cls.theme_style = "Light"
 
-        Builder.load_string(KV)
+            Builder.load_string(KV)
 
-        # Core Safety Services
-        self.location = LocationService()
-        self.sms = SmsService()
-        self.calling = CallingService()
-        self.emergency = EmergencyService(
-            self.location,
-            self.sms,
-            self.calling,
-        )
+            # Core Safety Services
+            self.location = LocationService()
+            self.sms = SmsService()
+            self.calling = CallingService()
+            self.emergency = EmergencyService(
+                self.location,
+                self.sms,
+                self.calling,
+            )
 
-        # Screen Navigation
-        self.sm = ScreenManager(transition=FadeTransition(duration=0.15))
-        self.sm.add_widget(HomeScreen())
-        self.sm.add_widget(ContactsScreen())
-        self.sm.add_widget(SettingsScreen())
-        self.sm.add_widget(EmergencyScreen())
+            # Screen Navigation
+            self.sm = ScreenManager(transition=FadeTransition(duration=0.15))
+            self.sm.add_widget(HomeScreen())
+            self.sm.add_widget(ContactsScreen())
+            self.sm.add_widget(SettingsScreen())
+            self.sm.add_widget(EmergencyScreen())
 
-        return self.sm
+            return self.sm
+        except Exception as exc:
+            err = traceback.format_exc()
+            print("[CRITICAL ALERTX STARTUP ERROR]", err)
+            # Write crash trace to accessible storage for easy diagnosis
+            for p in [Path("/sdcard/Download"), Path("/storage/emulated/0/Download"), Path(".")]:
+                try:
+                    if p.exists():
+                        (p / "alertx_crash.txt").write_text(err, encoding="utf-8")
+                        break
+                except Exception:
+                    pass
+
+            # Render an uncrashable pure Kivy error screen
+            from kivy.uix.boxlayout import BoxLayout
+            from kivy.uix.label import Label
+            from kivy.uix.scrollview import ScrollView
+
+            root = BoxLayout(orientation="vertical", padding=20)
+            root.add_widget(Label(
+                text="[b][color=ff4444]ALERTX LAUNCH ERROR[/color][/b]",
+                markup=True,
+                size_hint_y=None,
+                height=50,
+                font_size="18sp"
+            ))
+            sv = ScrollView()
+            sv.add_widget(Label(
+                text=err,
+                size_hint_y=None,
+                height=1500,
+                text_size=(750, None),
+                halign="left",
+                valign="top"
+            ))
+            root.add_widget(sv)
+            return root
 
     def on_start(self):
         """Schedule runtime Android permissions after window is ready."""

@@ -25,3 +25,6 @@ __pycache__/
 .idea/
 Thumbs.db
 .DS_Store
+
+# Temporary scratch files
+scratch/
