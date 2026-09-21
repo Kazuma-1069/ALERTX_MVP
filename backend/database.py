@@ -13,5 +13,18 @@ def init_db():
         from backend.models.emergency import Emergency
     except ImportError:
         from models.contact import Contact
-        from models.emergency import Emergency
     Base.metadata.create_all(bind=engine)
+
+
+def get_db():
+    """Database session dependency for FastAPI routes."""
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+# Auto-initialize tables
+init_db()
+
+

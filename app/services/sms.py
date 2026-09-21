@@ -5,10 +5,14 @@ Handles multipart messaging for long emergency messages with GPS links.
 Reports actual delivery and failure states without pretending success.
 """
 
+import os
 from typing import Any, Dict
-from kivy.utils import platform
 
-IS_ANDROID = platform == "android"
+try:
+    from kivy.utils import platform
+    IS_ANDROID = platform == "android"
+except ImportError:
+    IS_ANDROID = "ANDROID_ARGUMENT" in os.environ or "ANDROID_ROOT" in os.environ
 
 
 class SmsService:
@@ -22,6 +26,7 @@ class SmsService:
         """Send an SMS message to the specified phone number.
 
         On real Android devices:
+        - Verifies SEND_SMS permission before accessing telephony service
         - Uses android.telephony.SmsManager
         - Splits messages into parts if exceeding 160 characters (divideMessage)
         - Transmits via sendMultipartTextMessage or sendTextMessage
@@ -45,6 +50,19 @@ class SmsService:
             }
 
         try:
+            # Check runtime permission before invoking SmsManager
+            try:
+                from native_platform.native_bridge import check_permission, request_sms_permission
+                if not check_permission("SEND_SMS"):
+                    # Prompt user for SMS permission
+                    request_sms_permission()
+                    return {
+                        "ok": False,
+                        "message": "SEND_SMS permission requested from user",
+                        "recipient": clean_phone,
+                    }
+            except Exception:
+                pass
             from jnius import autoclass
 
             PythonActivity = autoclass("org.kivy.android.PythonActivity")

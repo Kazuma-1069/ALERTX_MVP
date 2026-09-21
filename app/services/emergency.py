@@ -157,6 +157,11 @@ def save_or_update_contact(
             contacts.insert(0, contact_entry)
 
     save_all_contacts(contacts)
+    try:
+        from services.api import ApiService
+        ApiService().async_sync_contact(clean_name, clean_phone, relationship)
+    except Exception:
+        pass
     return get_primary_contact() or {}
 
 
@@ -193,10 +198,18 @@ def save_contact(name, phone, relationship="Spouse"):
 class EmergencyService:
     """Full lifecycle orchestrator for AlertX emergency responses."""
 
-    def __init__(self, location_service, sms_service, calling_service=None):
+    def __init__(self, location_service, sms_service, calling_service=None, api_service=None):
         self.location = location_service
         self.sms = sms_service
         self.calling = calling_service
+        if api_service is None:
+            try:
+                from services.api import ApiService
+                self.api = ApiService()
+            except Exception:
+                self.api = None
+        else:
+            self.api = api_service
         self.active_session: Optional[Dict[str, Any]] = None
         self.message_template = DEFAULT_SOS_MESSAGE_TEMPLATE
 
@@ -255,8 +268,12 @@ class EmergencyService:
             res = self.sms.send(contact["phone"], message)
             sms_results.append(res)
 
-        from kivy.utils import platform
-        is_android_device = platform == "android"
+        try:
+            from kivy.utils import platform
+            is_android_device = platform == "android"
+        except ImportError:
+            import os
+            is_android_device = "ANDROID_ARGUMENT" in os.environ or "ANDROID_ROOT" in os.environ
 
         sms_success_count = sum(1 for r in sms_results if r.get("ok"))
         if sms_success_count == len(enabled_contacts) and sms_success_count > 0:
@@ -274,6 +291,13 @@ class EmergencyService:
                 call_status = f"Calling {primary.get('name', 'Contact')}"
             else:
                 call_status = "Calling Failed" if is_android_device else "Offline (Dev)"
+
+        # 5. Non-blocking asynchronous cloud reporting
+        if self.api:
+            lat = loc.get("lat") if loc.get("ok") else None
+            lon = loc.get("lon") if loc.get("ok") else None
+            acc = loc.get("accuracy") if loc.get("ok") else None
+            self.api.async_report_emergency(lat=lat, lon=lon, accuracy=acc)
 
         primary_name = primary.get("name", "Contact") if primary else "Contact"
         primary_phone = primary.get("phone", "") if primary else ""
@@ -302,4 +326,6 @@ class EmergencyService:
         """Cancel and deactivate the emergency dispatch."""
         prev = self.active_session
         self.active_session = None
+        if prev and prev.get("session_id") and self.api:
+            self.api.async_complete_emergency(prev["session_id"])
         return {"status": "cancelled", "previous_session": prev}

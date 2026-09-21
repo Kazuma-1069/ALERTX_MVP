@@ -73,8 +73,13 @@ class ContactsScreen(Screen):
         phone = self.ids.phone_field.text.strip()
         rel = self.selected_relation or "Spouse"
 
-        if not name or not phone:
-            self.show_toast("Please provide both name and phone number.")
+        if not name:
+            self.show_toast("Please provide the contact's name.")
+            return
+
+        digits_only = "".join([c for c in phone if c.isdigit()])
+        if len(digits_only) < 7:
+            self.show_toast("Please provide a valid phone number (min 7 digits).")
             return
 
         save_or_update_contact(
@@ -86,12 +91,12 @@ class ContactsScreen(Screen):
         )
 
         self.load_contact()
-        self.show_toast("Primary contact updated successfully.")
+        self.show_toast("Primary contact updated & armed successfully.")
 
         # Update home screen immediately
         from kivy.app import App
         app = App.get_running_app()
-        if app.sm.has_screen("home"):
+        if hasattr(app, "sm") and app.sm.has_screen("home"):
             app.sm.get_screen("home").refresh()
 
     def test_alert(self):
@@ -101,6 +106,28 @@ class ContactsScreen(Screen):
             self.show_toast("No valid contact phone to test.")
             return
 
+        # Check SEND_SMS runtime permission first
+        try:
+            from native_platform.native_bridge import check_permission, request_sms_permission
+            if not check_permission("SEND_SMS"):
+                self.show_toast("Requesting SMS permission...")
+                request_sms_permission(lambda p, r: self._after_sms_perm(p, r))
+                return
+        except Exception:
+            pass
+
+        self._dispatch_test_sms()
+
+    def _after_sms_perm(self, perms, results):
+        if any(results):
+            self._dispatch_test_sms()
+        else:
+            self.show_toast("SMS permission denied. Cannot send test SMS.")
+
+    def _dispatch_test_sms(self):
+        primary = get_primary_contact()
+        if not primary:
+            return
         from kivy.app import App
         app = App.get_running_app()
         msg = "ALERTX TEST: This is a test emergency alert from AlertX. Your contact is verified."

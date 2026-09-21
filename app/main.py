@@ -6,6 +6,7 @@ APP_DIR = Path(__file__).resolve().parent
 if str(APP_DIR) not in sys.path:
     sys.path.insert(0, str(APP_DIR))
 
+from kivy.core.window import Window
 from kivy.lang import Builder
 from kivy.properties import ColorProperty, StringProperty
 from kivy.utils import get_color_from_hex
@@ -76,14 +77,14 @@ KV = '''
 
             MDLabel:
                 markup: True
-                text: "[b][size=10sp][color=0051D5]ALERTX[/color][/size][/b]  [size=14sp][color=0051D5]•[/color][/size]\\n[b][size=18sp][color=0B1C30]Home[/color][/size][/b]"
+                text: "[b][size=13sp][color=0051D5]ALERTX[/color][/size][/b]   [size=12sp][color=45464D]•[/color][/size]   [b][size=18sp][color=0B1C30]Home[/color][/size][/b]"
                 size_hint_x: 1
                 pos_hint: {"center_y": .5}
 
             # Online capsule badge
             MDCard:
                 size_hint: None, None
-                size: dp(88), dp(28)
+                size: dp(114), dp(28)
                 radius: [self.height / 2, self.height / 2, self.height / 2, self.height / 2]
                 theme_bg_color: "Custom"
                 md_bg_color: app.surface_container
@@ -100,9 +101,10 @@ KV = '''
                     md_bg_color: app.blue
 
                 MDLabel:
-                    text: "ONLINE"
+                    text: root.online_badge_text
                     font_size: "10sp"
                     bold: True
+                    adaptive_size: True
                     theme_text_color: "Custom"
                     text_color: app.text_secondary
                     pos_hint: {"center_y": .5}
@@ -128,7 +130,7 @@ KV = '''
 
             MDBoxLayout:
                 orientation: "vertical"
-                padding: dp(16), dp(6), dp(16), dp(16)
+                padding: dp(16), dp(16), dp(16), dp(84)
                 spacing: dp(14)
                 size_hint_y: None
                 height: self.minimum_height
@@ -136,7 +138,7 @@ KV = '''
                 # ALERTX PRO / ARMED BANNER
                 MDBoxLayout:
                     size_hint_y: None
-                    height: dp(52)
+                    height: dp(60)
                     spacing: dp(10)
 
                     MDCard:
@@ -342,7 +344,9 @@ KV = '''
                             elevation: 4
                             theme_bg_color: "Custom"
                             md_bg_color: app.crimson
-                            on_release: root.trigger_sos()
+                            on_touch_down: if self.collide_point(*args[1].pos): root.on_sos_press()
+                            on_touch_up: root.on_sos_release()
+
 
                             MDBoxLayout:
                                 orientation: "vertical"
@@ -414,7 +418,7 @@ KV = '''
                             pos_hint: {"center_y": .5}
 
                         MDLabel:
-                            text: "Hold 2s to Prevent False Alarms"
+                            text: root.sos_status_text
                             font_size: "10sp"
                             bold: True
                             adaptive_size: True
@@ -714,7 +718,7 @@ KV = '''
 
             MDBoxLayout:
                 orientation: "vertical"
-                padding: dp(16), dp(8), dp(16), dp(20)
+                padding: dp(16), dp(8), dp(16), dp(84)
                 spacing: dp(14)
                 size_hint_y: None
                 height: self.minimum_height
@@ -1003,6 +1007,8 @@ KV = '''
                         TextInput:
                             id: name_field
                             text: "Sarah Jenkins"
+                            hint_text: "Full Name"
+                            cursor_color: app.blue
                             background_color: [0, 0, 0, 0]
                             foreground_color: [0.04, 0.11, 0.19, 1]
                             font_size: "15sp"
@@ -1123,6 +1129,9 @@ KV = '''
                         TextInput:
                             id: phone_field
                             text: "(555) 234-5678"
+                            hint_text: "Phone Number"
+                            input_type: "tel"
+                            cursor_color: app.blue
                             background_color: [0, 0, 0, 0]
                             foreground_color: [0.04, 0.11, 0.19, 1]
                             font_size: "15sp"
@@ -1485,7 +1494,7 @@ KV = '''
 
             MDBoxLayout:
                 orientation: "vertical"
-                padding: dp(16)
+                padding: dp(16), dp(10), dp(16), dp(84)
                 spacing: dp(14)
                 size_hint_y: None
                 height: self.minimum_height
@@ -1541,62 +1550,239 @@ KV = '''
                             theme_text_color: "Custom"
                             text_color: app.blue
 
+                # SYSTEM & HARDWARE DIAGNOSTICS CARD
                 MDCard:
                     orientation: "vertical"
                     padding: dp(16)
-                    spacing: dp(12)
+                    spacing: dp(10)
                     radius: [16, 16, 16, 16]
                     elevation: 1
                     theme_bg_color: "Custom"
                     md_bg_color: app.surface_lowest
                     size_hint_y: None
-                    height: dp(180)
+                    height: dp(290)
 
                     MDLabel:
                         text: "SYSTEM & HARDWARE STATUS"
                         font_size: "11sp"
                         bold: True
+                        size_hint_y: None
+                        height: dp(18)
                         theme_text_color: "Custom"
                         text_color: app.text_secondary
 
                     MDBoxLayout:
                         spacing: dp(8)
+                        size_hint_y: None
+                        height: dp(26)
                         MDIcon:
-                            icon: "map-marker-check"
+                            icon: "crosshairs-gps"
                             theme_text_color: "Custom"
                             text_color: app.green
                             font_size: "20sp"
+                            pos_hint: {"center_y": .5}
                         MDLabel:
-                            text: "GPS Location Receiver: Ready (High Accuracy)"
-                            font_size: "13sp"
+                            text: root.gps_status_text
+                            font_size: "12sp"
                             theme_text_color: "Custom"
                             text_color: app.text_primary
+                            pos_hint: {"center_y": .5}
 
                     MDBoxLayout:
                         spacing: dp(8)
+                        size_hint_y: None
+                        height: dp(26)
                         MDIcon:
                             icon: "message-check"
                             theme_text_color: "Custom"
                             text_color: app.green
                             font_size: "20sp"
+                            pos_hint: {"center_y": .5}
                         MDLabel:
-                            text: "Cellular SMS Telephony: Active"
-                            font_size: "13sp"
+                            text: root.sms_status_text
+                            font_size: "12sp"
                             theme_text_color: "Custom"
                             text_color: app.text_primary
+                            pos_hint: {"center_y": .5}
 
                     MDBoxLayout:
                         spacing: dp(8)
+                        size_hint_y: None
+                        height: dp(26)
                         MDIcon:
                             icon: "phone-check"
                             theme_text_color: "Custom"
                             text_color: app.green
                             font_size: "20sp"
+                            pos_hint: {"center_y": .5}
                         MDLabel:
-                            text: "Emergency Calling Dispatch: Armed"
-                            font_size: "13sp"
+                            text: root.call_status_text
+                            font_size: "12sp"
                             theme_text_color: "Custom"
                             text_color: app.text_primary
+                            pos_hint: {"center_y": .5}
+
+                    MDBoxLayout:
+                        spacing: dp(8)
+                        size_hint_y: None
+                        height: dp(34)
+                        MDIcon:
+                            icon: "cloud-sync"
+                            theme_text_color: "Custom"
+                            text_color: app.blue
+                            font_size: "20sp"
+                            pos_hint: {"center_y": .5}
+                        MDLabel:
+                            text: root.cloud_status_text
+                            font_size: "12sp"
+                            theme_text_color: "Custom"
+                            text_color: app.text_primary
+                            pos_hint: {"center_y": .5}
+
+                    ClickableCard:
+                        size_hint_y: None
+                        height: dp(38)
+                        radius: [10, 10, 10, 10]
+                        theme_bg_color: "Custom"
+                        md_bg_color: app.surface_low
+                        on_release: root.request_all_permissions()
+
+                        MDBoxLayout:
+                            spacing: dp(6)
+                            pos_hint: {"center_x": .5, "center_y": .5}
+
+                            MDIcon:
+                                icon: "shield-lock-outline"
+                                theme_text_color: "Custom"
+                                text_color: app.blue
+                                font_size: "18sp"
+                                pos_hint: {"center_y": .5}
+
+                            MDLabel:
+                                text: "Verify & Request System Permissions"
+                                font_size: "12sp"
+                                bold: True
+                                theme_text_color: "Custom"
+                                text_color: app.blue
+                                pos_hint: {"center_y": .5}
+
+                # EMERGENCY SOS PROTOCOL & HELP CARD
+                MDCard:
+                    orientation: "vertical"
+                    padding: dp(16)
+                    spacing: dp(10)
+                    radius: [16, 16, 16, 16]
+                    elevation: 1
+                    theme_bg_color: "Custom"
+                    md_bg_color: app.surface_lowest
+                    size_hint_y: None
+                    height: dp(210)
+
+                    MDLabel:
+                        text: "EMERGENCY PROTOCOL & HELP GUIDE"
+                        font_size: "11sp"
+                        bold: True
+                        size_hint_y: None
+                        height: dp(18)
+                        theme_text_color: "Custom"
+                        text_color: app.text_secondary
+
+                    MDBoxLayout:
+                        spacing: dp(8)
+                        size_hint_y: None
+                        height: dp(36)
+                        MDIcon:
+                            icon: "gesture-tap-hold"
+                            theme_text_color: "Custom"
+                            text_color: app.blue
+                            font_size: "20sp"
+                            pos_hint: {"center_y": .5}
+                        MDLabel:
+                            text: "Press & hold SOS for 2 seconds to initiate emergency broadcast."
+                            font_size: "11sp"
+                            theme_text_color: "Custom"
+                            text_color: app.text_primary
+                            pos_hint: {"center_y": .5}
+
+                    MDBoxLayout:
+                        spacing: dp(8)
+                        size_hint_y: None
+                        height: dp(36)
+                        MDIcon:
+                            icon: "satellite-uplink"
+                            theme_text_color: "Custom"
+                            text_color: app.blue
+                            font_size: "20sp"
+                            pos_hint: {"center_y": .5}
+                        MDLabel:
+                            text: "Satellite GPS & SMS operate without Internet data or Wi-Fi."
+                            font_size: "11sp"
+                            theme_text_color: "Custom"
+                            text_color: app.text_primary
+                            pos_hint: {"center_y": .5}
+
+                    MDBoxLayout:
+                        spacing: dp(8)
+                        size_hint_y: None
+                        height: dp(36)
+                        MDIcon:
+                            icon: "shield-refresh"
+                            theme_text_color: "Custom"
+                            text_color: app.blue
+                            font_size: "20sp"
+                            pos_hint: {"center_y": .5}
+                        MDLabel:
+                            text: "Press and hold Cancel on the Active screen to resolve an alert."
+                            font_size: "11sp"
+                            theme_text_color: "Custom"
+                            text_color: app.text_primary
+                            pos_hint: {"center_y": .5}
+
+                # APP VERSION & BUILD CARD
+                MDCard:
+                    orientation: "vertical"
+                    padding: dp(14), dp(10)
+                    spacing: dp(4)
+                    radius: [14, 14, 14, 14]
+                    elevation: 0
+                    theme_bg_color: "Custom"
+                    md_bg_color: app.surface_low
+                    size_hint_y: None
+                    height: dp(64)
+
+                    MDBoxLayout:
+                        spacing: dp(6)
+                        pos_hint: {"center_y": .5}
+
+                        MDIcon:
+                            icon: "shield-check"
+                            theme_text_color: "Custom"
+                            text_color: app.blue
+                            font_size: "18sp"
+                            pos_hint: {"center_y": .5}
+
+                        MDLabel:
+                            text: "ALERTX MOBILE APK"
+                            font_size: "10sp"
+                            bold: True
+                            theme_text_color: "Custom"
+                            text_color: app.text_secondary
+                            pos_hint: {"center_y": .5}
+
+                        MDLabel:
+                            text: "v0.1.0 (Build 1026100)"
+                            font_size: "12sp"
+                            bold: True
+                            halign: "right"
+                            theme_text_color: "Custom"
+                            text_color: app.text_primary
+                            pos_hint: {"center_y": .5}
+
+                    MDLabel:
+                        text: "Production APK Release • Android API 34 • arm64-v8a"
+                        font_size: "10sp"
+                        theme_text_color: "Custom"
+                        text_color: app.text_secondary
 
                 MDLabel:
                     text: root.status_text
@@ -1821,7 +2007,7 @@ KV = '''
 
             MDBoxLayout:
                 orientation: "vertical"
-                padding: dp(16), dp(8), dp(16), dp(24)
+                padding: dp(16), dp(8), dp(16), dp(44)
                 spacing: dp(14)
                 size_hint_y: None
                 height: self.minimum_height
@@ -1912,7 +2098,7 @@ KV = '''
                     theme_bg_color: "Custom"
                     md_bg_color: app.surface_lowest
                     size_hint_y: None
-                    height: dp(270)
+                    height: dp(286)
 
                     MDBoxLayout:
                         size_hint_y: None
@@ -2011,13 +2197,14 @@ KV = '''
                     # Coordinates & Accuracy 2-column grid
                     MDBoxLayout:
                         size_hint_y: None
-                        height: dp(56)
+                        height: dp(66)
                         spacing: dp(10)
 
                         MDCard:
                             size_hint_x: 0.5
                             orientation: "vertical"
-                            padding: dp(8)
+                            padding: dp(8), dp(6)
+                            spacing: dp(2)
                             radius: [8, 8, 8, 8]
                             theme_bg_color: "Custom"
                             md_bg_color: app.surface_low
@@ -2026,21 +2213,24 @@ KV = '''
                                 text: "COORDINATES"
                                 font_size: "9sp"
                                 bold: True
+                                size_hint_y: None
+                                height: dp(14)
                                 theme_text_color: "Custom"
                                 text_color: app.text_secondary
 
                             MDLabel:
                                 text: root.coordinates
-                                font_size: "12sp"
+                                font_size: "10sp"
                                 bold: True
-                                shorten: True
+                                shorten: False
                                 theme_text_color: "Custom"
                                 text_color: app.text_primary
 
                         MDCard:
                             size_hint_x: 0.5
                             orientation: "vertical"
-                            padding: dp(8)
+                            padding: dp(8), dp(6)
+                            spacing: dp(2)
                             radius: [8, 8, 8, 8]
                             theme_bg_color: "Custom"
                             md_bg_color: app.surface_low
@@ -2049,6 +2239,8 @@ KV = '''
                                 text: "ACCURACY"
                                 font_size: "9sp"
                                 bold: True
+                                size_hint_y: None
+                                height: dp(14)
                                 theme_text_color: "Custom"
                                 text_color: app.text_secondary
 
@@ -2374,7 +2566,8 @@ KV = '''
                         elevation: 2
                         theme_bg_color: "Custom"
                         md_bg_color: app.surface_lowest
-                        on_release: root.cancel_emergency()
+                        on_touch_down: if self.collide_point(*args[1].pos): root.on_cancel_press()
+                        on_touch_up: root.on_cancel_release()
 
                         MDBoxLayout:
                             spacing: dp(8)
@@ -2388,7 +2581,7 @@ KV = '''
                                 pos_hint: {"center_y": .5}
 
                             MDLabel:
-                                text: "HOLD TO CANCEL ALERT"
+                                text: root.cancel_status_text
                                 font_size: "14sp"
                                 bold: True
                                 theme_text_color: "Custom"
@@ -2448,16 +2641,28 @@ class AlertXApp(MDApp):
             self.title = APP_NAME
             self.theme_cls.theme_style = "Light"
 
+            try:
+                Window.softinput_mode = "below_target"
+            except Exception:
+                pass
+
             Builder.load_string(KV)
 
             # Core Safety Services
             self.location = LocationService()
             self.sms = SmsService()
             self.calling = CallingService()
+            try:
+                from services.api import ApiService
+                self.api = ApiService()
+            except Exception:
+                self.api = None
+
             self.emergency = EmergencyService(
                 self.location,
                 self.sms,
                 self.calling,
+                self.api,
             )
 
             # Screen Navigation
@@ -2506,13 +2711,44 @@ class AlertXApp(MDApp):
             return root
 
     def on_start(self):
-        """Schedule runtime Android permissions after window is ready."""
-        from kivy.clock import Clock
+        """Schedule hardware back button binding and passive system checks."""
         try:
-            from native_platform.native_bridge import request_emergency_permissions
-            Clock.schedule_once(lambda dt: request_emergency_permissions(), 0.5)
-        except Exception as exc:
-            print(f"[AlertX] Permission bridge error: {exc}")
+            Window.bind(on_keyboard=self._on_keyboard)
+        except Exception:
+            pass
+
+        # Passively start location listening only if permissions are already granted
+        try:
+            from native_platform.native_bridge import is_android, check_permission
+            if is_android() and (check_permission("ACCESS_FINE_LOCATION") or check_permission("ACCESS_COARSE_LOCATION")):
+                if hasattr(self, "location") and self.location:
+                    self.location.start_gps()
+        except Exception:
+            pass
+
+    def _on_keyboard(self, window, key, scancode, codepoint, modifier):
+        """Handle Android hardware back button (keycode 27)."""
+        if key == 27:
+            if hasattr(self, "sm") and self.sm:
+                current = self.sm.current
+                if current in ("contacts", "safety"):
+                    self.go_home()
+                    return True
+                elif current == "emergency":
+                    # In emergency, do not allow hardware back button to silently abort crisis dispatch
+                    return True
+                elif current == "home":
+                    # Allow normal Android back/minimize
+                    return False
+        return False
+
+    def on_pause(self):
+        """Allow app to stay alive when minimized or phone screen turns off."""
+        return True
+
+    def on_resume(self):
+        """Called when app returns from background."""
+        pass
 
     def go_home(self, *args):
         self.sm.current = "home"
@@ -2533,10 +2769,81 @@ class AlertXApp(MDApp):
         self.go_safety()
 
     def start_emergency(self):
+        try:
+            from native_platform.native_bridge import is_android, has_all_emergency_permissions, request_emergency_permissions
+            if is_android() and not has_all_emergency_permissions():
+                request_emergency_permissions(lambda perms, results: self._refresh_emergency_after_perms())
+        except Exception:
+            pass
+
         result = self.emergency.activate()
         emergency_screen = self.sm.get_screen("emergency")
         emergency_screen.apply_result(result)
         self.sm.current = "emergency"
+
+    def _refresh_emergency_after_perms(self):
+        """Update live telemetry if permissions were granted after SOS press."""
+        if hasattr(self, "sm") and self.sm and self.sm.current == "emergency":
+            emergency_screen = self.sm.get_screen("emergency")
+            if hasattr(self, "location"):
+                loc = self.location.get_current()
+                if loc.get("ok"):
+                    emergency_screen.coordinates = loc.get("coordinates_str", emergency_screen.coordinates)
+                    emergency_screen.location_status = loc.get("status", emergency_screen.location_status)
+                    emergency_screen.accuracy_str = loc.get("accuracy_str", emergency_screen.accuracy_str)
+
+
+# =============================================================================
+# Bulletproof Exception Handling: Keep App Alive Under All Runtime Errors
+# =============================================================================
+import traceback
+import threading
+from kivy.base import ExceptionManager, ExceptionHandler
+
+
+def _log_unhandled_crash(err: str):
+    """Write crash trace to disk and Android Logcat so it never vanishes."""
+    print("[CRITICAL EXCEPTION INTERCEPTED]", err)
+    try:
+        from jnius import autoclass
+        Log = autoclass("android.util.Log")
+        Log.e("AlertXCrash", err)
+    except Exception:
+        pass
+    for p in [Path("/sdcard/Download"), Path("/storage/emulated/0/Download"), Path(".")]:
+        try:
+            if p.exists():
+                (p / "alertx_crash.txt").write_text(err, encoding="utf-8")
+                break
+        except Exception:
+            pass
+
+
+class AlertXExceptionHandler(ExceptionHandler):
+    """Intercept all unhandled Kivy clock/event exceptions and keep app alive."""
+
+    def handle_exception(self, inst):
+        err = traceback.format_exc()
+        _log_unhandled_crash(err)
+        return ExceptionManager.PASS  # Keeps app alive without closing!
+
+
+def _global_excepthook(exc_type, exc_value, exc_traceback):
+    err = "".join(traceback.format_exception(exc_type, exc_value, exc_traceback))
+    _log_unhandled_crash(err)
+
+
+def _threading_excepthook(args):
+    _global_excepthook(args.exc_type, args.exc_value, args.exc_traceback)
+
+
+try:
+    ExceptionManager.add_handler(AlertXExceptionHandler())
+except Exception:
+    pass
+
+sys.excepthook = _global_excepthook
+threading.excepthook = _threading_excepthook
 
 
 if __name__ == "__main__":

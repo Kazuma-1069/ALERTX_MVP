@@ -1,6 +1,7 @@
 """AlertX Location Service.
 
-Integrates real GPS positioning via Plyer / Android Location Providers.
+Integrates real GPS positioning via Android native LocationManager (PyJNIus)
+and fallback provider mechanisms.
 Extracts latitude, longitude, accuracy, and timestamp, and generates
 Google Maps location links for emergency alerts.
 Never fabricates fake coordinates.
@@ -11,7 +12,7 @@ from typing import Any, Dict, Optional
 
 
 class LocationService:
-    """Service to monitor and retrieve real GPS location."""
+    """Service to monitor and retrieve real GPS location safely."""
 
     def __init__(self):
         self._latest_fix: Optional[Dict[str, Any]] = None
@@ -19,44 +20,78 @@ class LocationService:
 
     def start_gps(self):
         """Configure and start background GPS listening safely."""
-        if self._is_active:
-            return
+        self._is_active = True
+        # Immediately attempt native Android location query
+        self.update_native_location()
 
+    def update_native_location(self) -> Optional[Dict[str, Any]]:
+        """Query Android LocationManager directly for the latest accurate fix.
+        
+        Uses synchronous getLastKnownLocation calls from PyJNIus. This is 100%
+        thread-safe, does not register unstable JNI callbacks on the Android
+        main Looper thread, and never throws uncaught exceptions.
+        """
         try:
-            from kivy.utils import platform
-            if platform == "android":
-                # On Android, verify permissions before touching LocationManager
+            try:
+                from kivy.utils import platform
+                is_android = platform == "android"
+            except ImportError:
+                import os
+                is_android = "ANDROID_ARGUMENT" in os.environ or "ANDROID_ROOT" in os.environ
+
+            if not is_android:
+                return self._latest_fix
+
+            from jnius import autoclass
+            PythonActivity = autoclass("org.kivy.android.PythonActivity")
+            activity = PythonActivity.mActivity
+            if not activity:
+                return self._latest_fix
+
+            Context = autoclass("android.content.Context")
+            location_manager = activity.getSystemService(Context.LOCATION_SERVICE)
+            if not location_manager:
+                return self._latest_fix
+
+            best_location = None
+
+            # 1. Try GPS Provider first for highest satellite precision
+            try:
+                best_location = location_manager.getLastKnownLocation("gps")
+            except Exception:
+                pass
+
+            # 2. Fall back to Network Provider (cellular / wifi)
+            if not best_location:
                 try:
-                    from native_platform.native_bridge import check_permission
-                    if not check_permission("ACCESS_FINE_LOCATION") and not check_permission("ACCESS_COARSE_LOCATION"):
-                        self._is_active = False
-                        return
+                    best_location = location_manager.getLastKnownLocation("network")
                 except Exception:
                     pass
 
-            from plyer import gps
+            # 3. Fall back to passive provider if available
+            if not best_location:
+                try:
+                    best_location = location_manager.getLastKnownLocation("passive")
+                except Exception:
+                    pass
 
-            def _on_location(**kwargs):
-                lat = kwargs.get("lat")
-                lon = kwargs.get("lon")
-                if lat is not None and lon is not None:
-                    self._latest_fix = {
-                        "lat": float(lat),
-                        "lon": float(lon),
-                        "accuracy": float(kwargs.get("accuracy", 0.0) or 0.0),
-                        "altitude": kwargs.get("altitude"),
-                        "timestamp": time.time(),
-                    }
+            if best_location:
+                lat = float(best_location.getLatitude())
+                lon = float(best_location.getLongitude())
+                acc = float(best_location.getAccuracy()) if hasattr(best_location, "getAccuracy") else 10.0
+                alt = float(best_location.getAltitude()) if hasattr(best_location, "getAltitude") else None
+                self._latest_fix = {
+                    "lat": lat,
+                    "lon": lon,
+                    "accuracy": acc,
+                    "altitude": alt,
+                    "timestamp": time.time(),
+                }
+                return self._latest_fix
+        except Exception as exc:
+            print(f"[AlertX Location] Native query notice: {exc}")
 
-            def _on_status(stype, status):
-                pass
-
-            gps.configure(on_location=_on_location, on_status=_on_status)
-            gps.start(minTime=1000, minDistance=1)
-            self._is_active = True
-        except Exception:
-            # GPS hardware, permissions, or Plyer unavailable on this platform
-            self._is_active = False
+        return self._latest_fix
 
     def get_current(self) -> Dict[str, Any]:
         """Retrieve the current real GPS position.
@@ -65,6 +100,10 @@ class LocationService:
         available, explicitly reports 'Unable to obtain current location'
         without faking.
         """
+        # Try a fresh native poll if active
+        if self._is_active:
+            self.update_native_location()
+
         if self._latest_fix and self._latest_fix.get("lat") is not None:
             lat = self._latest_fix["lat"]
             lon = self._latest_fix["lon"]
@@ -74,7 +113,7 @@ class LocationService:
 
             return {
                 "ok": True,
-                "status": "High Precision" if accuracy <= 10 else "GPS Acquired",
+                "status": "High Precision" if accuracy <= 15 else "GPS Acquired",
                 "lat": lat,
                 "lon": lon,
                 "accuracy": accuracy,

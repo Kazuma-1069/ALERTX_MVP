@@ -28,10 +28,12 @@ class EmergencyScreen(Screen):
     recipient_phone = StringProperty("+1 555-234-5678")
     call_status = StringProperty("Calling Dispatched")
     timer_text = StringProperty("Active 00:00")
+    cancel_status_text = StringProperty("HOLD TO CANCEL ALERT")
     is_active = BooleanProperty(True)
 
     elapsed_seconds = NumericProperty(0)
     _timer_event = None
+    _cancel_hold_event = None
 
     def on_enter(self):
         self.start_timer()
@@ -88,9 +90,33 @@ class EmergencyScreen(Screen):
         self.call_status = result.get("call_status", "Calling...")
         self.start_timer()
 
+    def on_cancel_press(self):
+        """Called when user initiates hold on Cancel button."""
+        self.cancel_status_text = "HOLD TO DEACTIVATE..."
+        if self._cancel_hold_event:
+            self._cancel_hold_event.cancel()
+        self._cancel_hold_event = Clock.schedule_once(self._on_cancel_completed, 1.5)
+
+    def on_cancel_release(self):
+        """Called if user releases hold before duration completes."""
+        if self._cancel_hold_event:
+            self._cancel_hold_event.cancel()
+            self._cancel_hold_event = None
+            self.cancel_status_text = "HOLD TO CANCEL ALERT"
+
+    def _on_cancel_completed(self, dt):
+        """Hold duration satisfied - execute safe deactivation."""
+        self._cancel_hold_event = None
+        self.cancel_status_text = "DEACTIVATING SOS..."
+        self.cancel_emergency()
+
     def cancel_emergency(self):
         """Cancel the emergency alert and return to home screen."""
         self.stop_timer()
+        if self._cancel_hold_event:
+            self._cancel_hold_event.cancel()
+            self._cancel_hold_event = None
+        self.cancel_status_text = "HOLD TO CANCEL ALERT"
         from kivy.app import App
         app = App.get_running_app()
         if hasattr(app, "emergency"):

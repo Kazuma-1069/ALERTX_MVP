@@ -31,7 +31,8 @@ orientation = portrait
 fullscreen = 0
 
 # (list) Permissions
-android.permissions = INTERNET,ACCESS_FINE_LOCATION,ACCESS_COARSE_LOCATION,SEND_SMS,CALL_PHONE,READ_PHONE_STATE
+android.permissions = INTERNET,ACCESS_FINE_LOCATION,ACCESS_COARSE_LOCATION,SEND_SMS,CALL_PHONE
+
 
 # (int) Target Android API
 android.api = 34

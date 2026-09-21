@@ -17,6 +17,8 @@ class HomeScreen(Screen):
     contact_badge = StringProperty("Ready")
     location_title = StringProperty("Precise Location Active")
     location_subtitle = StringProperty("GPS Acquired • Live")
+    sos_status_text = StringProperty("Hold 2s to Prevent False Alarms")
+    online_badge_text = StringProperty("ONLINE")
     defense_summary = StringProperty(
         "Your safety system is armed. In an emergency, pressing SOS will immediately alert Sarah Jenkins with your real-time satellite coordinates."
     )
@@ -27,6 +29,9 @@ class HomeScreen(Screen):
         "[b][size=17sp][color=0B1C30]ALERTX[/color][/size][/b]   [b][size=10sp][color=0051D5]PRO[/color][/size][/b]\n"
         "[size=12sp][color=45464D]Personal Safety Guard[/color][/size]"
     )
+
+    _sos_hold_event = None
+    _sos_hold_start = 0.0
 
     def on_enter(self):
         self.refresh()
@@ -80,7 +85,34 @@ class HomeScreen(Screen):
             f"[size=12sp][color=45464D]{self.location_subtitle}[/color][/size]"
         )
 
+        if hasattr(app, "api") and app.api:
+            self.online_badge_text = "ONLINE" if app.api.is_online else "STANDALONE"
+
+    def on_sos_press(self):
+        """Called when user touches down on SOS button."""
+        import time
+        self._sos_hold_start = time.time()
+        self.sos_status_text = "HOLD FOR 2 SECONDS..."
+        if self._sos_hold_event:
+            self._sos_hold_event.cancel()
+        self._sos_hold_event = Clock.schedule_once(self._on_sos_hold_completed, 2.0)
+
+    def on_sos_release(self):
+        """Called when user lifts finger from SOS button."""
+        if self._sos_hold_event:
+            self._sos_hold_event.cancel()
+            self._sos_hold_event = None
+            self.sos_status_text = "Hold 2s to Prevent False Alarms"
+
+    def _on_sos_hold_completed(self, dt):
+        """Fired after 2 full seconds of holding down SOS."""
+        self._sos_hold_event = None
+        self.sos_status_text = "EMERGENCY DISPATCHING..."
+        self.trigger_sos()
+
     def trigger_sos(self):
         """Activate emergency dispatch."""
+        self.sos_status_text = "Hold 2s to Prevent False Alarms"
         from kivy.app import App
         App.get_running_app().start_emergency()
+

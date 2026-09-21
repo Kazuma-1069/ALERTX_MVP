@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, Float, DateTime
-from datetime import datetime
+from datetime import datetime, timezone
 try:
     from backend.database import Base
 except ImportError:
@@ -13,5 +13,5 @@ class Emergency(Base):
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
     accuracy = Column(Float, nullable=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
     completed_at = Column(DateTime, nullable=True)

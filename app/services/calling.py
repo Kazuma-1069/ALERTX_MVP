@@ -6,10 +6,14 @@ gracefully falls back to Intent.ACTION_DIAL when restricted by OS policies.
 Reports authentic calling dispatch states without faking success.
 """
 
+import os
 from typing import Any, Dict
-from kivy.utils import platform
 
-IS_ANDROID = platform == "android"
+try:
+    from kivy.utils import platform
+    IS_ANDROID = platform == "android"
+except ImportError:
+    IS_ANDROID = "ANDROID_ARGUMENT" in os.environ or "ANDROID_ROOT" in os.environ
 
 
 class CallingService:
@@ -53,26 +57,40 @@ class CallingService:
             PythonActivity = autoclass("org.kivy.android.PythonActivity")
             activity = PythonActivity.mActivity
 
-            # First attempt direct call (ACTION_CALL)
+            # Check CALL_PHONE permission
+            can_direct_call = False
             try:
-                intent = Intent(Intent.ACTION_CALL)
-                intent.setData(Uri.parse(f"tel:{clean_phone}"))
-                activity.startActivity(intent)
-                return {
-                    "ok": True,
-                    "message": f"Calling {clean_phone}...",
-                    "recipient": clean_phone,
-                }
+                from native_platform.native_bridge import check_permission, request_call_permission
+                if check_permission("CALL_PHONE"):
+                    can_direct_call = True
+                else:
+                    request_call_permission()
             except Exception:
-                # Fallback to ACTION_DIAL if CALL_PHONE is restricted
-                dial_intent = Intent(Intent.ACTION_DIAL)
-                dial_intent.setData(Uri.parse(f"tel:{clean_phone}"))
-                activity.startActivity(dial_intent)
-                return {
-                    "ok": True,
-                    "message": f"Dialer Opened for {clean_phone}",
-                    "recipient": clean_phone,
-                }
+                can_direct_call = True
+
+            # First attempt direct call (ACTION_CALL) if permitted
+            if can_direct_call:
+                try:
+                    intent = Intent(Intent.ACTION_CALL)
+                    intent.setData(Uri.parse(f"tel:{clean_phone}"))
+                    activity.startActivity(intent)
+                    return {
+                        "ok": True,
+                        "message": f"Calling {clean_phone}...",
+                        "recipient": clean_phone,
+                    }
+                except Exception:
+                    pass
+
+            # Fallback to ACTION_DIAL (never requires CALL_PHONE and never crashes)
+            dial_intent = Intent(Intent.ACTION_DIAL)
+            dial_intent.setData(Uri.parse(f"tel:{clean_phone}"))
+            activity.startActivity(dial_intent)
+            return {
+                "ok": True,
+                "message": f"Dialer Opened for {clean_phone}",
+                "recipient": clean_phone,
+            }
 
         except Exception as exc:
             return {

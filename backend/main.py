@@ -1,12 +1,40 @@
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
-from backend.api.contacts import router as contacts_router
-from backend.api.emergency import router as emergency_router
+from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI(title="ALERTX MVP", version="0.1.0")
+try:
+    from backend.database import init_db
+    from backend.api.contacts import router as contacts_router
+    from backend.api.emergency import router as emergency_router
+except ImportError:
+    from database import init_db
+    from api.contacts import router as contacts_router
+    from api.emergency import router as emergency_router
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Ensure SQLite tables exist before taking requests
+    init_db()
+    yield
+
+
+app = FastAPI(title="ALERTX MVP", version="0.1.0", lifespan=lifespan)
+
+# Allow requests from mobile clients, web proxies, and dev tools
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.include_router(contacts_router, prefix="/contacts", tags=["contacts"])
 app.include_router(emergency_router, prefix="/emergency", tags=["emergency"])
 
+
 @app.get("/health")
 def health():
     return {"status": "ok", "service": "ALERTX"}
+
