@@ -52,16 +52,16 @@ KV = '''#:import dp kivy.metrics.dp
         # TOP APP HEADER
         MDBoxLayout:
             size_hint_y: None
-            height: dp(68)
-            padding: dp(16), dp(10)
-            spacing: dp(12)
+            height: dp(64)
+            padding: dp(14), dp(8)
+            spacing: dp(10)
             theme_bg_color: "Custom"
             md_bg_color: app.bg_surface
 
             MDCard:
                 size_hint: None, None
-                size: dp(42), dp(42)
-                radius: [12, 12, 12, 12]
+                size: dp(40), dp(40)
+                radius: [10, 10, 10, 10]
                 theme_bg_color: "Custom"
                 md_bg_color: app.surface_lowest
                 line_color: app.surface_container
@@ -74,24 +74,26 @@ KV = '''#:import dp kivy.metrics.dp
                     pos_hint: {"center_x": .5, "center_y": .5}
                     theme_text_color: "Custom"
                     text_color: app.blue
-                    font_size: "24sp"
+                    font_size: "22sp"
 
             MDLabel:
                 markup: True
                 text: "[b][size=12sp][color=38BDF8]ALERTX[/color][/size]   [color=64748B]•[/color]   [size=16sp][color=F8FAFC]Home[/color][/b]"
                 size_hint_x: 1
+                shorten: True
+                shorten_from: "right"
                 pos_hint: {"center_y": .5}
 
             # Online capsule badge
             MDCard:
                 size_hint: None, None
-                size: dp(118), dp(30)
+                size: dp(110), dp(28)
                 radius: [self.height / 2, self.height / 2, self.height / 2, self.height / 2]
                 theme_bg_color: "Custom"
                 md_bg_color: app.surface_lowest
                 line_color: app.surface_container
                 line_width: 1
-                padding: dp(10), dp(4)
+                padding: dp(8), dp(4)
                 spacing: dp(6)
                 pos_hint: {"center_y": .5}
 
@@ -105,7 +107,7 @@ KV = '''#:import dp kivy.metrics.dp
 
                 MDLabel:
                     text: root.online_badge_text
-                    font_size: "11sp"
+                    font_size: "10sp"
                     bold: True
                     adaptive_size: True
                     theme_text_color: "Custom"
@@ -114,7 +116,7 @@ KV = '''#:import dp kivy.metrics.dp
 
             MDCard:
                 size_hint: None, None
-                size: dp(36), dp(36)
+                size: dp(34), dp(34)
                 radius: [self.width / 2, self.width / 2, self.width / 2, self.width / 2]
                 theme_bg_color: "Custom"
                 md_bg_color: app.surface_lowest
@@ -127,7 +129,7 @@ KV = '''#:import dp kivy.metrics.dp
                     pos_hint: {"center_x": .5, "center_y": .5}
                     theme_text_color: "Custom"
                     text_color: app.text_primary
-                    font_size: "20sp"
+                    font_size: "18sp"
 
         # SCROLLABLE CONTENT
         ScrollView:
@@ -135,7 +137,7 @@ KV = '''#:import dp kivy.metrics.dp
 
             MDBoxLayout:
                 orientation: "vertical"
-                padding: dp(16), dp(16), dp(16), dp(84)
+                padding: dp(16), dp(12), dp(16), dp(84)
                 spacing: dp(14)
                 size_hint_y: None
                 height: self.minimum_height
@@ -143,13 +145,13 @@ KV = '''#:import dp kivy.metrics.dp
                 # ALERTX PRO / ARMED BANNER
                 MDBoxLayout:
                     size_hint_y: None
-                    height: dp(54)
-                    spacing: dp(12)
+                    height: self.minimum_height
+                    spacing: dp(10)
 
                     MDCard:
                         size_hint: None, None
-                        size: dp(46), dp(46)
-                        radius: [14, 14, 14, 14]
+                        size: dp(44), dp(44)
+                        radius: [12, 12, 12, 12]
                         theme_bg_color: "Custom"
                         md_bg_color: app.surface_lowest
                         line_color: app.surface_container
@@ -161,11 +163,14 @@ KV = '''#:import dp kivy.metrics.dp
                             pos_hint: {"center_x": .5, "center_y": .5}
                             theme_text_color: "Custom"
                             text_color: app.crimson_coral
-                            font_size: "26sp"
+                            font_size: "24sp"
 
                     MDLabel:
                         markup: True
                         text: root.banner_markup
+                        size_hint_y: None
+                        height: max(dp(36), self.texture_size[1])
+                        text_size: self.width, None
                         pos_hint: {"center_y": .5}
 
                     Widget:
@@ -173,26 +178,26 @@ KV = '''#:import dp kivy.metrics.dp
                     # Armed Badge
                     MDCard:
                         size_hint: None, None
-                        size: dp(106), dp(32)
-                        radius: [16, 16, 16, 16]
+                        size: dp(100), dp(30)
+                        radius: [15, 15, 15, 15]
                         theme_bg_color: "Custom"
                         md_bg_color: app.green_light
                         line_color: app.green
                         line_width: 1
                         padding: dp(8), dp(4)
-                        spacing: dp(6)
+                        spacing: dp(4)
                         pos_hint: {"center_y": .5}
 
                         MDIcon:
                             icon: "shield-check"
                             theme_text_color: "Custom"
                             text_color: app.green
-                            font_size: "16sp"
+                            font_size: "15sp"
                             pos_hint: {"center_y": .5}
 
                         MDLabel:
                             text: "ARMED"
-                            font_size: "11sp"
+                            font_size: "10sp"
                             bold: True
                             theme_text_color: "Custom"
                             text_color: app.green
@@ -202,7 +207,7 @@ KV = '''#:import dp kivy.metrics.dp
                 ClickableCard:
                     orientation: "horizontal"
                     padding: dp(14)
-                    spacing: dp(12)
+                    spacing: dp(10)
                     radius: [16, 16, 16, 16]
                     elevation: 1
                     theme_bg_color: "Custom"
@@ -210,12 +215,12 @@ KV = '''#:import dp kivy.metrics.dp
                     line_color: app.surface_container
                     line_width: 1
                     size_hint_y: None
-                    height: dp(82)
+                    height: self.minimum_height
                     on_release: app.go_contacts()
 
                     MDCard:
                         size_hint: None, None
-                        size: dp(44), dp(44)
+                        size: dp(42), dp(42)
                         radius: [12, 12, 12, 12]
                         theme_bg_color: "Custom"
                         md_bg_color: app.surface_low
@@ -226,20 +231,23 @@ KV = '''#:import dp kivy.metrics.dp
                             pos_hint: {"center_x": .5, "center_y": .5}
                             theme_text_color: "Custom"
                             text_color: app.blue
-                            font_size: "24sp"
+                            font_size: "22sp"
 
                     MDLabel:
                         markup: True
                         text: root.contact_markup
+                        size_hint_y: None
+                        height: max(dp(44), self.texture_size[1])
+                        text_size: self.width, None
                         pos_hint: {"center_y": .5}
 
                     MDCard:
                         size_hint: None, None
-                        size: dp(96), dp(28)
+                        size: dp(86), dp(28)
                         radius: [14, 14, 14, 14]
                         theme_bg_color: "Custom"
                         md_bg_color: app.green_light
-                        padding: dp(8), dp(2)
+                        padding: dp(6), dp(2)
                         spacing: dp(4)
                         pos_hint: {"center_y": .5}
 
@@ -247,12 +255,12 @@ KV = '''#:import dp kivy.metrics.dp
                             icon: "check-circle"
                             theme_text_color: "Custom"
                             text_color: app.green
-                            font_size: "16sp"
+                            font_size: "15sp"
                             pos_hint: {"center_y": .5}
 
                         MDLabel:
                             text: root.contact_badge
-                            font_size: "11sp"
+                            font_size: "10sp"
                             bold: True
                             theme_text_color: "Custom"
                             text_color: app.green
@@ -262,7 +270,7 @@ KV = '''#:import dp kivy.metrics.dp
                 MDCard:
                     orientation: "horizontal"
                     padding: dp(14)
-                    spacing: dp(12)
+                    spacing: dp(10)
                     radius: [16, 16, 16, 16]
                     elevation: 1
                     theme_bg_color: "Custom"
@@ -270,11 +278,11 @@ KV = '''#:import dp kivy.metrics.dp
                     line_color: app.surface_container
                     line_width: 1
                     size_hint_y: None
-                    height: dp(82)
+                    height: self.minimum_height
 
                     MDCard:
                         size_hint: None, None
-                        size: dp(44), dp(44)
+                        size: dp(42), dp(42)
                         radius: [12, 12, 12, 12]
                         theme_bg_color: "Custom"
                         md_bg_color: app.surface_low
@@ -285,20 +293,23 @@ KV = '''#:import dp kivy.metrics.dp
                             pos_hint: {"center_x": .5, "center_y": .5}
                             theme_text_color: "Custom"
                             text_color: app.blue
-                            font_size: "24sp"
+                            font_size: "22sp"
 
                     MDLabel:
                         markup: True
                         text: root.location_markup
+                        size_hint_y: None
+                        height: max(dp(44), self.texture_size[1])
+                        text_size: self.width, None
                         pos_hint: {"center_y": .5}
 
                     MDCard:
                         size_hint: None, None
-                        size: dp(76), dp(28)
+                        size: dp(72), dp(28)
                         radius: [14, 14, 14, 14]
                         theme_bg_color: "Custom"
                         md_bg_color: [0.05, 0.29, 0.43, 0.4]
-                        padding: dp(8), dp(2)
+                        padding: dp(6), dp(2)
                         spacing: dp(4)
                         pos_hint: {"center_y": .5}
 
@@ -306,12 +317,12 @@ KV = '''#:import dp kivy.metrics.dp
                             icon: "satellite-uplink"
                             theme_text_color: "Custom"
                             text_color: app.blue
-                            font_size: "16sp"
+                            font_size: "15sp"
                             pos_hint: {"center_y": .5}
 
                         MDLabel:
                             text: "Live"
-                            font_size: "11sp"
+                            font_size: "10sp"
                             bold: True
                             theme_text_color: "Custom"
                             text_color: app.blue
@@ -321,21 +332,21 @@ KV = '''#:import dp kivy.metrics.dp
                 MDBoxLayout:
                     orientation: "vertical"
                     size_hint_y: None
-                    height: dp(350)
+                    height: self.minimum_height
                     padding: dp(0), dp(4)
-                    spacing: dp(14)
+                    spacing: dp(12)
 
                     # Concentric Glowing Rings & Central SOS Beacon
                     AnchorLayout:
                         anchor_x: "center"
                         anchor_y: "center"
                         size_hint_y: None
-                        height: dp(246)
+                        height: dp(230)
 
                         # Outer Soft Aura (Glow Ring 1)
                         MDCard:
                             size_hint: None, None
-                            size: dp(240), dp(240)
+                            size: dp(224), dp(224)
                             radius: [self.width / 2, self.width / 2, self.width / 2, self.width / 2]
                             theme_bg_color: "Custom"
                             md_bg_color: [0.93, 0.26, 0.26, 0.10]
@@ -343,7 +354,7 @@ KV = '''#:import dp kivy.metrics.dp
                         # Inner Aura (Glow Ring 2)
                         MDCard:
                             size_hint: None, None
-                            size: dp(204), dp(204)
+                            size: dp(190), dp(190)
                             radius: [self.width / 2, self.width / 2, self.width / 2, self.width / 2]
                             theme_bg_color: "Custom"
                             md_bg_color: [0.93, 0.26, 0.26, 0.22]
@@ -351,7 +362,7 @@ KV = '''#:import dp kivy.metrics.dp
                         # Main Crimson SOS Button
                         ClickableCard:
                             size_hint: None, None
-                            size: dp(174), dp(174)
+                            size: dp(160), dp(160)
                             radius: [self.width / 2, self.width / 2, self.width / 2, self.width / 2]
                             elevation: 6
                             theme_bg_color: "Custom"
@@ -361,19 +372,19 @@ KV = '''#:import dp kivy.metrics.dp
 
                             MDBoxLayout:
                                 orientation: "vertical"
-                                padding: dp(12), dp(10)
-                                spacing: dp(2)
+                                padding: dp(10), dp(8)
+                                spacing: dp(1)
                                 pos_hint: {"center_x": .5, "center_y": .5}
 
                                 AnchorLayout:
                                     anchor_x: "center"
                                     anchor_y: "center"
                                     size_hint_y: None
-                                    height: dp(42)
+                                    height: dp(38)
 
                                     MDCard:
                                         size_hint: None, None
-                                        size: dp(42), dp(42)
+                                        size: dp(38), dp(38)
                                         radius: [self.width / 2, self.width / 2, self.width / 2, self.width / 2]
                                         theme_bg_color: "Custom"
                                         md_bg_color: [1, 1, 1, 0.22]
@@ -386,40 +397,40 @@ KV = '''#:import dp kivy.metrics.dp
                                                 icon: "power"
                                                 theme_text_color: "Custom"
                                                 text_color: app.white
-                                                font_size: "24sp"
+                                                font_size: "22sp"
 
                                 MDLabel:
                                     text: "SOS"
-                                    font_size: "36sp"
+                                    font_size: "34sp"
                                     bold: True
                                     halign: "center"
                                     valign: "middle"
                                     theme_text_color: "Custom"
                                     text_color: app.white
                                     size_hint_y: None
-                                    height: dp(42)
+                                    height: dp(38)
 
                                 MDLabel:
                                     text: "EMERGENCY"
-                                    font_size: "10sp"
+                                    font_size: "9sp"
                                     bold: True
                                     halign: "center"
                                     valign: "middle"
                                     theme_text_color: "Custom"
                                     text_color: [1, 1, 1, 0.85]
                                     size_hint_y: None
-                                    height: dp(16)
+                                    height: dp(14)
 
                     # Info Badge below button
                     MDCard:
                         size_hint: None, None
-                        size: dp(260), dp(32)
+                        size: dp(250), dp(30)
                         radius: [self.height / 2, self.height / 2, self.height / 2, self.height / 2]
                         theme_bg_color: "Custom"
                         md_bg_color: app.surface_lowest
                         line_color: app.surface_container
                         line_width: 1
-                        padding: dp(12), dp(4)
+                        padding: dp(10), dp(4)
                         spacing: dp(6)
                         pos_hint: {"center_x": .5}
 
@@ -427,14 +438,14 @@ KV = '''#:import dp kivy.metrics.dp
                             icon: "gesture-tap-hold"
                             theme_text_color: "Custom"
                             text_color: app.blue
-                            font_size: "16sp"
+                            font_size: "15sp"
                             size_hint_x: None
-                            width: dp(16)
+                            width: dp(15)
                             pos_hint: {"center_y": .5}
 
                         MDLabel:
                             text: root.sos_status_text
-                            font_size: "11sp"
+                            font_size: "10sp"
                             bold: True
                             adaptive_size: True
                             theme_text_color: "Custom"
@@ -446,25 +457,27 @@ KV = '''#:import dp kivy.metrics.dp
                         font_size: "13sp"
                         bold: True
                         halign: "center"
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                        text_size: self.width, None
                         theme_text_color: "Custom"
                         text_color: app.text_primary
-                        size_hint_y: None
-                        height: dp(20)
 
                     MDLabel:
                         text: "Sends instant SMS with GPS coordinates to your contact"
                         font_size: "11sp"
                         halign: "center"
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                        text_size: self.width, None
                         theme_text_color: "Custom"
                         text_color: app.text_secondary
-                        size_hint_y: None
-                        height: dp(18)
 
                 # CARD 3: SYSTEM DEFENSE READY
                 MDCard:
                     orientation: "horizontal"
                     padding: dp(14)
-                    spacing: dp(12)
+                    spacing: dp(10)
                     radius: [16, 16, 16, 16]
                     elevation: 0
                     theme_bg_color: "Custom"
@@ -472,11 +485,11 @@ KV = '''#:import dp kivy.metrics.dp
                     line_color: app.surface_container
                     line_width: 1
                     size_hint_y: None
-                    height: dp(100)
+                    height: self.minimum_height
 
                     MDCard:
                         size_hint: None, None
-                        size: dp(40), dp(40)
+                        size: dp(38), dp(38)
                         radius: [10, 10, 10, 10]
                         theme_bg_color: "Custom"
                         md_bg_color: app.surface_low
@@ -487,21 +500,24 @@ KV = '''#:import dp kivy.metrics.dp
                             pos_hint: {"center_x": .5, "center_y": .5}
                             theme_text_color: "Custom"
                             text_color: app.blue
-                            font_size: "24sp"
+                            font_size: "22sp"
 
                     MDLabel:
                         markup: True
                         text: root.defense_summary_markup
-                        font_size: "13sp"
+                        font_size: "12sp"
+                        size_hint_y: None
+                        height: max(dp(38), self.texture_size[1])
+                        text_size: self.width, None
                         pos_hint: {"center_y": .5}
 
         # BOTTOM NAVIGATION BAR
         MDBoxLayout:
             size_hint_y: None
-            height: dp(68)
+            height: dp(64)
             theme_bg_color: "Custom"
             md_bg_color: app.surface_lowest
-            padding: dp(8), dp(4)
+            padding: dp(6), dp(4)
 
             # Home Tab (Active)
             ClickableCard:
@@ -519,8 +535,8 @@ KV = '''#:import dp kivy.metrics.dp
 
                     MDCard:
                         size_hint: None, None
-                        size: dp(54), dp(28)
-                        radius: [14, 14, 14, 14]
+                        size: dp(50), dp(26)
+                        radius: [13, 13, 13, 13]
                         theme_bg_color: "Custom"
                         md_bg_color: app.surface_container
                         pos_hint: {"center_x": .5}
@@ -530,7 +546,7 @@ KV = '''#:import dp kivy.metrics.dp
                             pos_hint: {"center_x": .5, "center_y": .5}
                             theme_text_color: "Custom"
                             text_color: app.blue
-                            font_size: "20sp"
+                            font_size: "18sp"
 
                     MDLabel:
                         text: "Home"
@@ -556,8 +572,8 @@ KV = '''#:import dp kivy.metrics.dp
 
                     MDCard:
                         size_hint: None, None
-                        size: dp(54), dp(28)
-                        radius: [14, 14, 14, 14]
+                        size: dp(50), dp(26)
+                        radius: [13, 13, 13, 13]
                         theme_bg_color: "Custom"
                         md_bg_color: [0, 0, 0, 0]
                         pos_hint: {"center_x": .5}
@@ -567,7 +583,7 @@ KV = '''#:import dp kivy.metrics.dp
                             pos_hint: {"center_x": .5, "center_y": .5}
                             theme_text_color: "Custom"
                             text_color: app.text_secondary
-                            font_size: "20sp"
+                            font_size: "18sp"
 
                     MDLabel:
                         text: "Contacts"
@@ -592,8 +608,8 @@ KV = '''#:import dp kivy.metrics.dp
 
                     MDCard:
                         size_hint: None, None
-                        size: dp(54), dp(28)
-                        radius: [14, 14, 14, 14]
+                        size: dp(50), dp(26)
+                        radius: [13, 13, 13, 13]
                         theme_bg_color: "Custom"
                         md_bg_color: [0, 0, 0, 0]
                         pos_hint: {"center_x": .5}
@@ -603,7 +619,7 @@ KV = '''#:import dp kivy.metrics.dp
                             pos_hint: {"center_x": .5, "center_y": .5}
                             theme_text_color: "Custom"
                             text_color: app.text_secondary
-                            font_size: "20sp"
+                            font_size: "18sp"
 
                     MDLabel:
                         text: "Safety"
@@ -628,8 +644,8 @@ KV = '''#:import dp kivy.metrics.dp
 
                     MDCard:
                         size_hint: None, None
-                        size: dp(54), dp(28)
-                        radius: [14, 14, 14, 14]
+                        size: dp(50), dp(26)
+                        radius: [13, 13, 13, 13]
                         theme_bg_color: "Custom"
                         md_bg_color: [0, 0, 0, 0]
                         pos_hint: {"center_x": .5}
@@ -639,7 +655,7 @@ KV = '''#:import dp kivy.metrics.dp
                             pos_hint: {"center_x": .5, "center_y": .5}
                             theme_text_color: "Custom"
                             text_color: app.text_secondary
-                            font_size: "20sp"
+                            font_size: "18sp"
 
                     MDLabel:
                         text: "Help"
@@ -660,16 +676,16 @@ KV = '''#:import dp kivy.metrics.dp
         # TOP APP HEADER
         MDBoxLayout:
             size_hint_y: None
-            height: dp(68)
-            padding: dp(16), dp(10)
-            spacing: dp(12)
+            height: dp(64)
+            padding: dp(14), dp(8)
+            spacing: dp(10)
             theme_bg_color: "Custom"
             md_bg_color: app.bg_surface
 
             MDCard:
                 size_hint: None, None
-                size: dp(42), dp(42)
-                radius: [12, 12, 12, 12]
+                size: dp(40), dp(40)
+                radius: [10, 10, 10, 10]
                 theme_bg_color: "Custom"
                 md_bg_color: app.surface_lowest
                 line_color: app.surface_container
@@ -682,24 +698,26 @@ KV = '''#:import dp kivy.metrics.dp
                     pos_hint: {"center_x": .5, "center_y": .5}
                     theme_text_color: "Custom"
                     text_color: app.blue
-                    font_size: "24sp"
+                    font_size: "22sp"
 
             MDLabel:
                 markup: True
                 text: "[b][size=12sp][color=38BDF8]ALERTX[/color][/size]   [color=64748B]•[/color]   [size=16sp][color=F8FAFC]Emergency Contacts[/color][/b]"
                 size_hint_x: 1
+                shorten: True
+                shorten_from: "right"
                 pos_hint: {"center_y": .5}
 
             MDCard:
                 size_hint: None, None
-                size: dp(96), dp(30)
-                radius: [15, 15, 15, 15]
+                size: dp(90), dp(28)
+                radius: [14, 14, 14, 14]
                 theme_bg_color: "Custom"
                 md_bg_color: app.surface_lowest
                 line_color: app.surface_container
                 line_width: 1
-                padding: dp(8), dp(4)
-                spacing: dp(6)
+                padding: dp(6), dp(4)
+                spacing: dp(4)
                 pos_hint: {"center_y": .5}
 
                 MDCard:
@@ -712,7 +730,7 @@ KV = '''#:import dp kivy.metrics.dp
 
                 MDLabel:
                     text: "ONLINE"
-                    font_size: "11sp"
+                    font_size: "10sp"
                     bold: True
                     theme_text_color: "Custom"
                     text_color: app.green
@@ -720,8 +738,8 @@ KV = '''#:import dp kivy.metrics.dp
 
             MDCard:
                 size_hint: None, None
-                size: dp(36), dp(36)
-                radius: [18, 18, 18, 18]
+                size: dp(34), dp(34)
+                radius: [17, 17, 17, 17]
                 theme_bg_color: "Custom"
                 md_bg_color: app.surface_lowest
                 line_color: app.surface_container
@@ -733,7 +751,7 @@ KV = '''#:import dp kivy.metrics.dp
                     pos_hint: {"center_x": .5, "center_y": .5}
                     theme_text_color: "Custom"
                     text_color: app.text_primary
-                    font_size: "20sp"
+                    font_size: "18sp"
 
         # SCROLLABLE CONTENT
         ScrollView:
@@ -750,7 +768,7 @@ KV = '''#:import dp kivy.metrics.dp
                 MDBoxLayout:
                     orientation: "vertical"
                     size_hint_y: None
-                    height: dp(72)
+                    height: self.minimum_height
                     spacing: dp(4)
 
                     MDBoxLayout:
@@ -762,12 +780,12 @@ KV = '''#:import dp kivy.metrics.dp
                             icon: "shield-check"
                             theme_text_color: "Custom"
                             text_color: app.blue
-                            font_size: "16sp"
+                            font_size: "15sp"
                             pos_hint: {"center_y": .5}
 
                         MDLabel:
                             text: "LIFELINE GUARDIAN"
-                            font_size: "11sp"
+                            font_size: "10sp"
                             bold: True
                             theme_text_color: "Custom"
                             text_color: app.blue
@@ -777,13 +795,14 @@ KV = '''#:import dp kivy.metrics.dp
                         markup: True
                         text: root.intro_markup
                         size_hint_y: None
-                        height: dp(48)
+                        height: self.texture_size[1]
+                        text_size: self.width, None
 
                 # AUTOMATED SOS PROTOCOL INFO CARD
                 MDCard:
                     orientation: "horizontal"
                     padding: dp(14)
-                    spacing: dp(12)
+                    spacing: dp(10)
                     radius: [16, 16, 16, 16]
                     elevation: 0
                     theme_bg_color: "Custom"
@@ -791,11 +810,11 @@ KV = '''#:import dp kivy.metrics.dp
                     line_color: app.surface_container
                     line_width: 1
                     size_hint_y: None
-                    height: dp(94)
+                    height: self.minimum_height
 
                     MDCard:
                         size_hint: None, None
-                        size: dp(42), dp(42)
+                        size: dp(40), dp(40)
                         radius: [10, 10, 10, 10]
                         theme_bg_color: "Custom"
                         md_bg_color: app.surface_low
@@ -806,12 +825,15 @@ KV = '''#:import dp kivy.metrics.dp
                             pos_hint: {"center_x": .5, "center_y": .5}
                             theme_text_color: "Custom"
                             text_color: app.blue
-                            font_size: "22sp"
+                            font_size: "20sp"
 
                     MDLabel:
                         markup: True
                         text: root.automated_sos_markup
-                        font_size: "13sp"
+                        font_size: "12sp"
+                        size_hint_y: None
+                        height: max(dp(40), self.texture_size[1])
+                        text_size: self.width, None
                         pos_hint: {"center_y": .5}
 
                 # ACTIVE GUARDIAN CARD
@@ -827,7 +849,7 @@ KV = '''#:import dp kivy.metrics.dp
 
                         MDLabel:
                             text: "ACTIVE GUARDIAN"
-                            font_size: "11sp"
+                            font_size: "10sp"
                             bold: True
                             theme_text_color: "Custom"
                             text_color: app.text_secondary
@@ -836,13 +858,13 @@ KV = '''#:import dp kivy.metrics.dp
 
                         MDCard:
                             size_hint: None, None
-                            size: dp(86), dp(24)
-                            radius: [12, 12, 12, 12]
+                            size: dp(80), dp(22)
+                            radius: [11, 11, 11, 11]
                             theme_bg_color: "Custom"
                             md_bg_color: app.green_light
                             line_color: app.green
                             line_width: 1
-                            padding: dp(8), dp(2)
+                            padding: dp(6), dp(2)
                             spacing: dp(4)
 
                             MDCard:
@@ -855,15 +877,15 @@ KV = '''#:import dp kivy.metrics.dp
 
                             MDLabel:
                                 text: "Primary"
-                                font_size: "11sp"
+                                font_size: "10sp"
                                 bold: True
                                 theme_text_color: "Custom"
                                 text_color: app.green
 
                     MDCard:
                         orientation: "vertical"
-                        padding: dp(16)
-                        spacing: dp(14)
+                        padding: dp(14)
+                        spacing: dp(12)
                         radius: [16, 16, 16, 16]
                         elevation: 1
                         theme_bg_color: "Custom"
@@ -871,17 +893,17 @@ KV = '''#:import dp kivy.metrics.dp
                         line_color: app.surface_container
                         line_width: 1
                         size_hint_y: None
-                        height: dp(136)
+                        height: self.minimum_height
 
                         MDBoxLayout:
-                            spacing: dp(12)
+                            spacing: dp(10)
                             size_hint_y: None
-                            height: dp(48)
+                            height: self.minimum_height
 
                             MDCard:
                                 size_hint: None, None
-                                size: dp(48), dp(48)
-                                radius: [24, 24, 24, 24]
+                                size: dp(44), dp(44)
+                                radius: [22, 22, 22, 22]
                                 theme_bg_color: "Custom"
                                 md_bg_color: app.surface_low
                                 line_color: app.blue
@@ -890,7 +912,7 @@ KV = '''#:import dp kivy.metrics.dp
 
                                 MDLabel:
                                     text: root.guardian_initials
-                                    font_size: "18sp"
+                                    font_size: "16sp"
                                     bold: True
                                     halign: "center"
                                     theme_text_color: "Custom"
@@ -898,44 +920,50 @@ KV = '''#:import dp kivy.metrics.dp
 
                             MDBoxLayout:
                                 orientation: "vertical"
+                                size_hint_y: None
+                                height: self.minimum_height
                                 pos_hint: {"center_y": .5}
 
                                 MDBoxLayout:
                                     spacing: dp(6)
                                     size_hint_y: None
-                                    height: dp(22)
+                                    height: self.minimum_height
 
                                     MDLabel:
                                         text: root.guardian_name
-                                        font_size: "17sp"
+                                        font_size: "16sp"
                                         bold: True
+                                        size_hint_y: None
+                                        height: self.texture_size[1]
                                         theme_text_color: "Custom"
                                         text_color: app.text_primary
 
                                     MDCard:
                                         size_hint: None, None
-                                        size: dp(72), dp(22)
+                                        size: dp(68), dp(20)
                                         radius: [6, 6, 6, 6]
                                         theme_bg_color: "Custom"
                                         md_bg_color: app.surface_low
-                                        padding: dp(6), dp(2)
+                                        padding: dp(4), dp(2)
 
                                         MDLabel:
                                             text: root.guardian_relation
-                                            font_size: "11sp"
+                                            font_size: "10sp"
                                             halign: "center"
                                             theme_text_color: "Custom"
                                             text_color: app.text_secondary
 
                                 MDLabel:
                                     text: root.guardian_phone
-                                    font_size: "13sp"
+                                    font_size: "12sp"
+                                    size_hint_y: None
+                                    height: self.texture_size[1]
                                     theme_text_color: "Custom"
                                     text_color: app.text_secondary
 
                         MDBoxLayout:
                             size_hint_y: None
-                            height: dp(34)
+                            height: dp(32)
                             spacing: dp(8)
 
                             MDBoxLayout:
@@ -946,24 +974,24 @@ KV = '''#:import dp kivy.metrics.dp
                                     icon: "check-circle"
                                     theme_text_color: "Custom"
                                     text_color: app.green
-                                    font_size: "18sp"
+                                    font_size: "16sp"
 
                                 MDLabel:
                                     text: "Verified for SMS alerts"
-                                    font_size: "12sp"
+                                    font_size: "11sp"
                                     bold: True
                                     theme_text_color: "Custom"
                                     text_color: app.green
 
                             ClickableCard:
                                 size_hint: None, None
-                                size: dp(120), dp(32)
-                                radius: [16, 16, 16, 16]
+                                size: dp(110), dp(30)
+                                radius: [15, 15, 15, 15]
                                 theme_bg_color: "Custom"
                                 md_bg_color: app.surface_low
                                 line_color: app.surface_container
                                 line_width: 1
-                                padding: dp(8), dp(4)
+                                padding: dp(6), dp(4)
                                 spacing: dp(4)
                                 on_release: root.test_alert()
 
@@ -971,12 +999,12 @@ KV = '''#:import dp kivy.metrics.dp
                                     icon: "message-text"
                                     theme_text_color: "Custom"
                                     text_color: app.blue
-                                    font_size: "16sp"
+                                    font_size: "15sp"
                                     pos_hint: {"center_y": .5}
 
                                 MDLabel:
                                     text: "Test Alert"
-                                    font_size: "11sp"
+                                    font_size: "10sp"
                                     bold: True
                                     theme_text_color: "Custom"
                                     text_color: app.text_primary
@@ -985,7 +1013,7 @@ KV = '''#:import dp kivy.metrics.dp
                 # UPDATE CONTACT DETAILS FORM
                 MDCard:
                     orientation: "vertical"
-                    padding: dp(18)
+                    padding: dp(16)
                     spacing: dp(12)
                     radius: [16, 16, 16, 16]
                     elevation: 1
@@ -994,7 +1022,7 @@ KV = '''#:import dp kivy.metrics.dp
                     line_color: app.surface_container
                     line_width: 1
                     size_hint_y: None
-                    height: dp(336)
+                    height: self.minimum_height
 
                     MDBoxLayout:
                         size_hint_y: None
@@ -1002,7 +1030,7 @@ KV = '''#:import dp kivy.metrics.dp
 
                         MDLabel:
                             text: "Update Contact Details"
-                            font_size: "16sp"
+                            font_size: "15sp"
                             bold: True
                             theme_text_color: "Custom"
                             text_color: app.text_primary
@@ -1011,7 +1039,7 @@ KV = '''#:import dp kivy.metrics.dp
                             icon: "square-edit-outline"
                             theme_text_color: "Custom"
                             text_color: app.text_secondary
-                            font_size: "20sp"
+                            font_size: "18sp"
 
                     # Field 1: Full Name
                     MDLabel:
@@ -1025,18 +1053,18 @@ KV = '''#:import dp kivy.metrics.dp
 
                     MDCard:
                         size_hint_y: None
-                        height: dp(48)
+                        height: dp(46)
                         radius: [12, 12, 12, 12]
                         theme_bg_color: "Custom"
                         md_bg_color: app.surface_low
-                        padding: dp(12), dp(4)
+                        padding: dp(10), dp(4)
                         spacing: dp(8)
 
                         MDIcon:
                             icon: "account-details"
                             theme_text_color: "Custom"
                             text_color: app.blue
-                            font_size: "20sp"
+                            font_size: "18sp"
                             pos_hint: {"center_y": .5}
 
                         TextInput:
@@ -1047,7 +1075,7 @@ KV = '''#:import dp kivy.metrics.dp
                             background_color: [0, 0, 0, 0]
                             foreground_color: [0.97, 0.98, 0.99, 1]
                             hint_text_color: [0.39, 0.45, 0.54, 1]
-                            font_size: "15sp"
+                            font_size: "14sp"
                             multiline: False
                             pos_hint: {"center_y": .5}
 
@@ -1063,8 +1091,8 @@ KV = '''#:import dp kivy.metrics.dp
 
                     MDBoxLayout:
                         size_hint_y: None
-                        height: dp(36)
-                        spacing: dp(8)
+                        height: dp(34)
+                        spacing: dp(6)
 
                         ClickableCard:
                             size_hint_x: 0.25
@@ -1075,7 +1103,7 @@ KV = '''#:import dp kivy.metrics.dp
 
                             MDLabel:
                                 text: "Parent"
-                                font_size: "12sp"
+                                font_size: "11sp"
                                 bold: True
                                 halign: "center"
                                 theme_text_color: "Custom"
@@ -1090,7 +1118,7 @@ KV = '''#:import dp kivy.metrics.dp
 
                             MDLabel:
                                 text: "Spouse"
-                                font_size: "12sp"
+                                font_size: "11sp"
                                 bold: True
                                 halign: "center"
                                 theme_text_color: "Custom"
@@ -1105,7 +1133,7 @@ KV = '''#:import dp kivy.metrics.dp
 
                             MDLabel:
                                 text: "Sibling"
-                                font_size: "12sp"
+                                font_size: "11sp"
                                 bold: True
                                 halign: "center"
                                 theme_text_color: "Custom"
@@ -1120,7 +1148,7 @@ KV = '''#:import dp kivy.metrics.dp
 
                             MDLabel:
                                 text: "Friend"
-                                font_size: "12sp"
+                                font_size: "11sp"
                                 bold: True
                                 halign: "center"
                                 theme_text_color: "Custom"
@@ -1138,26 +1166,26 @@ KV = '''#:import dp kivy.metrics.dp
 
                     MDCard:
                         size_hint_y: None
-                        height: dp(48)
+                        height: dp(46)
                         radius: [12, 12, 12, 12]
                         theme_bg_color: "Custom"
                         md_bg_color: app.surface_low
-                        padding: dp(12), dp(4)
+                        padding: dp(10), dp(4)
                         spacing: dp(6)
 
                         MDIcon:
                             icon: "cellphone"
                             theme_text_color: "Custom"
                             text_color: app.blue
-                            font_size: "20sp"
+                            font_size: "18sp"
                             pos_hint: {"center_y": .5}
 
                         MDLabel:
                             text: "US +1"
-                            font_size: "13sp"
+                            font_size: "12sp"
                             bold: True
                             size_hint_x: None
-                            width: dp(44)
+                            width: dp(48)
                             theme_text_color: "Custom"
                             text_color: app.text_secondary
                             pos_hint: {"center_y": .5}
@@ -1171,7 +1199,7 @@ KV = '''#:import dp kivy.metrics.dp
                             background_color: [0, 0, 0, 0]
                             foreground_color: [0.97, 0.98, 0.99, 1]
                             hint_text_color: [0.39, 0.45, 0.54, 1]
-                            font_size: "15sp"
+                            font_size: "14sp"
                             multiline: False
                             pos_hint: {"center_y": .5}
 
@@ -1179,17 +1207,17 @@ KV = '''#:import dp kivy.metrics.dp
                             icon: "check-circle"
                             theme_text_color: "Custom"
                             text_color: app.green
-                            font_size: "20sp"
+                            font_size: "18sp"
                             pos_hint: {"center_y": .5}
 
                     # Save Contact Button
                     ClickableCard:
                         size_hint_y: None
-                        height: dp(50)
+                        height: dp(48)
                         radius: [12, 12, 12, 12]
                         theme_bg_color: "Custom"
                         md_bg_color: app.blue
-                        padding: dp(12), dp(4)
+                        padding: dp(10), dp(4)
                         spacing: dp(8)
                         on_release: root.save_contact()
 
@@ -1201,18 +1229,18 @@ KV = '''#:import dp kivy.metrics.dp
                                 icon: "content-save"
                                 theme_text_color: "Custom"
                                 text_color: app.black
-                                font_size: "20sp"
+                                font_size: "18sp"
                                 pos_hint: {"center_y": .5}
 
                             MDLabel:
                                 text: "Save Contact"
-                                font_size: "15sp"
+                                font_size: "14sp"
                                 bold: True
                                 theme_text_color: "Custom"
                                 text_color: app.black
                                 pos_hint: {"center_y": .5}
 
-                # CONTACT PERMISSIONS CARD
+                # CONTACT PERMISSIONS CARD - DYNAMIC FLEXIBLE HEIGHT
                 MDCard:
                     orientation: "vertical"
                     padding: dp(16)
@@ -1224,21 +1252,21 @@ KV = '''#:import dp kivy.metrics.dp
                     line_color: app.surface_container
                     line_width: 1
                     size_hint_y: None
-                    height: dp(138)
+                    height: self.minimum_height
 
                     MDLabel:
                         text: "CONTACT PERMISSIONS"
-                        font_size: "11sp"
+                        font_size: "10sp"
                         bold: True
                         theme_text_color: "Custom"
                         text_color: app.text_secondary
                         size_hint_y: None
-                        height: dp(16)
+                        height: dp(14)
 
                     MDBoxLayout:
-                        spacing: dp(12)
+                        spacing: dp(10)
                         size_hint_y: None
-                        height: dp(40)
+                        height: self.minimum_height
 
                         MDCard:
                             size_hint: None, None
@@ -1246,7 +1274,7 @@ KV = '''#:import dp kivy.metrics.dp
                             radius: [18, 18, 18, 18]
                             theme_bg_color: "Custom"
                             md_bg_color: app.surface_low
-                            pos_hint: {"center_y": .5}
+                            pos_hint: {"top": 1}
 
                             MDIcon:
                                 icon: "map-marker-radius"
@@ -1257,25 +1285,34 @@ KV = '''#:import dp kivy.metrics.dp
 
                         MDBoxLayout:
                             orientation: "vertical"
+                            spacing: dp(2)
+                            size_hint_y: None
+                            height: self.minimum_height
                             pos_hint: {"center_y": .5}
 
                             MDLabel:
                                 text: "Live Pin Tracking"
-                                font_size: "14sp"
+                                font_size: "13sp"
                                 bold: True
+                                size_hint_y: None
+                                height: self.texture_size[1]
+                                text_size: self.width, None
                                 theme_text_color: "Custom"
                                 text_color: app.text_primary
 
                             MDLabel:
                                 text: "Sends dynamic map pin refreshed with precision"
                                 font_size: "11sp"
+                                size_hint_y: None
+                                height: self.texture_size[1]
+                                text_size: self.width, None
                                 theme_text_color: "Custom"
                                 text_color: app.text_secondary
 
                     MDBoxLayout:
-                        spacing: dp(12)
+                        spacing: dp(10)
                         size_hint_y: None
-                        height: dp(40)
+                        height: self.minimum_height
 
                         MDCard:
                             size_hint: None, None
@@ -1283,7 +1320,7 @@ KV = '''#:import dp kivy.metrics.dp
                             radius: [18, 18, 18, 18]
                             theme_bg_color: "Custom"
                             md_bg_color: app.surface_low
-                            pos_hint: {"center_y": .5}
+                            pos_hint: {"top": 1}
 
                             MDIcon:
                                 icon: "transmission-tower"
@@ -1294,18 +1331,27 @@ KV = '''#:import dp kivy.metrics.dp
 
                         MDBoxLayout:
                             orientation: "vertical"
+                            spacing: dp(2)
+                            size_hint_y: None
+                            height: self.minimum_height
                             pos_hint: {"center_y": .5}
 
                             MDLabel:
                                 text: "Cellular Bypass"
-                                font_size: "14sp"
+                                font_size: "13sp"
                                 bold: True
+                                size_hint_y: None
+                                height: self.texture_size[1]
+                                text_size: self.width, None
                                 theme_text_color: "Custom"
                                 text_color: app.text_primary
 
                             MDLabel:
                                 text: "Prioritizes delivery through emergency carrier band"
                                 font_size: "11sp"
+                                size_hint_y: None
+                                height: self.texture_size[1]
+                                text_size: self.width, None
                                 theme_text_color: "Custom"
                                 text_color: app.text_secondary
 
@@ -1323,10 +1369,10 @@ KV = '''#:import dp kivy.metrics.dp
         # BOTTOM NAVIGATION BAR (Contacts Active)
         MDBoxLayout:
             size_hint_y: None
-            height: dp(68)
+            height: dp(64)
             theme_bg_color: "Custom"
             md_bg_color: app.surface_lowest
-            padding: dp(8), dp(4)
+            padding: dp(6), dp(4)
 
             # Home Tab
             ClickableCard:
@@ -1344,8 +1390,8 @@ KV = '''#:import dp kivy.metrics.dp
 
                     MDCard:
                         size_hint: None, None
-                        size: dp(54), dp(28)
-                        radius: [14, 14, 14, 14]
+                        size: dp(50), dp(26)
+                        radius: [13, 13, 13, 13]
                         theme_bg_color: "Custom"
                         md_bg_color: [0, 0, 0, 0]
                         pos_hint: {"center_x": .5}
@@ -1355,7 +1401,7 @@ KV = '''#:import dp kivy.metrics.dp
                             pos_hint: {"center_x": .5, "center_y": .5}
                             theme_text_color: "Custom"
                             text_color: app.text_secondary
-                            font_size: "20sp"
+                            font_size: "18sp"
 
                     MDLabel:
                         text: "Home"
@@ -1380,8 +1426,8 @@ KV = '''#:import dp kivy.metrics.dp
 
                     MDCard:
                         size_hint: None, None
-                        size: dp(54), dp(28)
-                        radius: [14, 14, 14, 14]
+                        size: dp(50), dp(26)
+                        radius: [13, 13, 13, 13]
                         theme_bg_color: "Custom"
                         md_bg_color: app.surface_container
                         pos_hint: {"center_x": .5}
@@ -1391,7 +1437,7 @@ KV = '''#:import dp kivy.metrics.dp
                             pos_hint: {"center_x": .5, "center_y": .5}
                             theme_text_color: "Custom"
                             text_color: app.blue
-                            font_size: "20sp"
+                            font_size: "18sp"
 
                     MDLabel:
                         text: "Contacts"
@@ -1417,8 +1463,8 @@ KV = '''#:import dp kivy.metrics.dp
 
                     MDCard:
                         size_hint: None, None
-                        size: dp(54), dp(28)
-                        radius: [14, 14, 14, 14]
+                        size: dp(50), dp(26)
+                        radius: [13, 13, 13, 13]
                         theme_bg_color: "Custom"
                         md_bg_color: [0, 0, 0, 0]
                         pos_hint: {"center_x": .5}
@@ -1428,7 +1474,7 @@ KV = '''#:import dp kivy.metrics.dp
                             pos_hint: {"center_x": .5, "center_y": .5}
                             theme_text_color: "Custom"
                             text_color: app.text_secondary
-                            font_size: "20sp"
+                            font_size: "18sp"
 
                     MDLabel:
                         text: "Safety"
@@ -1453,8 +1499,8 @@ KV = '''#:import dp kivy.metrics.dp
 
                     MDCard:
                         size_hint: None, None
-                        size: dp(54), dp(28)
-                        radius: [14, 14, 14, 14]
+                        size: dp(50), dp(26)
+                        radius: [13, 13, 13, 13]
                         theme_bg_color: "Custom"
                         md_bg_color: [0, 0, 0, 0]
                         pos_hint: {"center_x": .5}
@@ -1464,7 +1510,7 @@ KV = '''#:import dp kivy.metrics.dp
                             pos_hint: {"center_x": .5, "center_y": .5}
                             theme_text_color: "Custom"
                             text_color: app.text_secondary
-                            font_size: "20sp"
+                            font_size: "18sp"
 
                     MDLabel:
                         text: "Help"
@@ -1485,16 +1531,16 @@ KV = '''#:import dp kivy.metrics.dp
         # TOP APP HEADER
         MDBoxLayout:
             size_hint_y: None
-            height: dp(68)
-            padding: dp(16), dp(10)
-            spacing: dp(12)
+            height: dp(64)
+            padding: dp(14), dp(8)
+            spacing: dp(10)
             theme_bg_color: "Custom"
             md_bg_color: app.bg_surface
 
             MDCard:
                 size_hint: None, None
-                size: dp(42), dp(42)
-                radius: [12, 12, 12, 12]
+                size: dp(40), dp(40)
+                radius: [10, 10, 10, 10]
                 theme_bg_color: "Custom"
                 md_bg_color: app.surface_lowest
                 line_color: app.surface_container
@@ -1507,18 +1553,20 @@ KV = '''#:import dp kivy.metrics.dp
                     pos_hint: {"center_x": .5, "center_y": .5}
                     theme_text_color: "Custom"
                     text_color: app.blue
-                    font_size: "24sp"
+                    font_size: "22sp"
 
             MDLabel:
                 markup: True
                 text: "[b][size=12sp][color=38BDF8]ALERTX[/color][/size]   [color=64748B]•[/color]   [size=16sp][color=F8FAFC]Safety & SOS Settings[/color][/b]"
                 size_hint_x: 1
+                shorten: True
+                shorten_from: "right"
                 pos_hint: {"center_y": .5}
 
             MDCard:
                 size_hint: None, None
-                size: dp(36), dp(36)
-                radius: [18, 18, 18, 18]
+                size: dp(34), dp(34)
+                radius: [17, 17, 17, 17]
                 theme_bg_color: "Custom"
                 md_bg_color: app.surface_lowest
                 line_color: app.surface_container
@@ -1530,7 +1578,7 @@ KV = '''#:import dp kivy.metrics.dp
                     pos_hint: {"center_x": .5, "center_y": .5}
                     theme_text_color: "Custom"
                     text_color: app.text_primary
-                    font_size: "20sp"
+                    font_size: "18sp"
 
         ScrollView:
             do_scroll_x: False
@@ -1553,14 +1601,14 @@ KV = '''#:import dp kivy.metrics.dp
                     line_color: app.surface_container
                     line_width: 1
                     size_hint_y: None
-                    height: dp(236)
+                    height: self.minimum_height
 
                     MDLabel:
                         text: "EMERGENCY SOS MESSAGE TEMPLATE"
-                        font_size: "11sp"
+                        font_size: "10sp"
                         bold: True
                         size_hint_y: None
-                        height: dp(18)
+                        height: dp(14)
                         theme_text_color: "Custom"
                         text_color: app.text_secondary
 
@@ -1570,18 +1618,21 @@ KV = '''#:import dp kivy.metrics.dp
                         theme_bg_color: "Custom"
                         md_bg_color: app.surface_low
                         size_hint_y: None
-                        height: dp(112)
+                        height: self.minimum_height
 
                         MDLabel:
                             text: root.message_preview
                             font_size: "12sp"
                             italic: True
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                            text_size: self.width, None
                             theme_text_color: "Custom"
                             text_color: app.text_primary
 
                     ClickableCard:
                         size_hint_y: None
-                        height: dp(40)
+                        height: dp(38)
                         radius: [10, 10, 10, 10]
                         theme_bg_color: "Custom"
                         md_bg_color: app.surface_low
@@ -1597,11 +1648,11 @@ KV = '''#:import dp kivy.metrics.dp
                             theme_text_color: "Custom"
                             text_color: app.blue
 
-                # SYSTEM & HARDWARE DIAGNOSTICS CARD
+                # SYSTEM & HARDWARE DIAGNOSTICS CARD - DYNAMIC EXPANDING HEIGHT
                 MDCard:
                     orientation: "vertical"
                     padding: dp(16)
-                    spacing: dp(10)
+                    spacing: dp(12)
                     radius: [16, 16, 16, 16]
                     elevation: 1
                     theme_bg_color: "Custom"
@@ -1609,81 +1660,93 @@ KV = '''#:import dp kivy.metrics.dp
                     line_color: app.surface_container
                     line_width: 1
                     size_hint_y: None
-                    height: dp(290)
+                    height: self.minimum_height
 
                     MDLabel:
                         text: "SYSTEM & HARDWARE STATUS"
-                        font_size: "11sp"
+                        font_size: "10sp"
                         bold: True
                         size_hint_y: None
-                        height: dp(18)
+                        height: dp(14)
                         theme_text_color: "Custom"
                         text_color: app.text_secondary
 
                     MDBoxLayout:
-                        spacing: dp(8)
+                        spacing: dp(10)
                         size_hint_y: None
-                        height: dp(26)
+                        height: self.minimum_height
                         MDIcon:
                             icon: "crosshairs-gps"
                             theme_text_color: "Custom"
                             text_color: app.green
-                            font_size: "20sp"
-                            pos_hint: {"center_y": .5}
+                            font_size: "18sp"
+                            pos_hint: {"top": 1}
                         MDLabel:
                             text: root.gps_status_text
                             font_size: "12sp"
+                            size_hint_y: None
+                            height: max(dp(22), self.texture_size[1])
+                            text_size: self.width, None
                             theme_text_color: "Custom"
                             text_color: app.text_primary
                             pos_hint: {"center_y": .5}
 
                     MDBoxLayout:
-                        spacing: dp(8)
+                        spacing: dp(10)
                         size_hint_y: None
-                        height: dp(26)
+                        height: self.minimum_height
                         MDIcon:
                             icon: "message-check"
                             theme_text_color: "Custom"
                             text_color: app.green
-                            font_size: "20sp"
-                            pos_hint: {"center_y": .5}
+                            font_size: "18sp"
+                            pos_hint: {"top": 1}
                         MDLabel:
                             text: root.sms_status_text
                             font_size: "12sp"
+                            size_hint_y: None
+                            height: max(dp(22), self.texture_size[1])
+                            text_size: self.width, None
                             theme_text_color: "Custom"
                             text_color: app.text_primary
                             pos_hint: {"center_y": .5}
 
                     MDBoxLayout:
-                        spacing: dp(8)
+                        spacing: dp(10)
                         size_hint_y: None
-                        height: dp(26)
+                        height: self.minimum_height
                         MDIcon:
                             icon: "phone-check"
                             theme_text_color: "Custom"
                             text_color: app.green
-                            font_size: "20sp"
-                            pos_hint: {"center_y": .5}
+                            font_size: "18sp"
+                            pos_hint: {"top": 1}
                         MDLabel:
                             text: root.call_status_text
                             font_size: "12sp"
+                            size_hint_y: None
+                            height: max(dp(22), self.texture_size[1])
+                            text_size: self.width, None
                             theme_text_color: "Custom"
                             text_color: app.text_primary
                             pos_hint: {"center_y": .5}
 
                     MDBoxLayout:
-                        spacing: dp(8)
+                        spacing: dp(10)
                         size_hint_y: None
-                        height: dp(34)
+                        height: self.minimum_height
                         MDIcon:
                             icon: "cloud-sync"
                             theme_text_color: "Custom"
                             text_color: app.blue
-                            font_size: "20sp"
-                            pos_hint: {"center_y": .5}
+                            font_size: "18sp"
+                            pos_hint: {"top": 1}
                         MDLabel:
                             text: root.cloud_status_text
                             font_size: "12sp"
+                            size_hint_y: None
+                            height: max(dp(22), self.texture_size[1])
+                            text_size: self.width, None
                             theme_text_color: "Custom"
                             text_color: app.text_primary
                             pos_hint: {"center_y": .5}
@@ -1711,7 +1774,7 @@ KV = '''#:import dp kivy.metrics.dp
 
                             MDLabel:
                                 text: "Verify & Request System Permissions"
-                                font_size: "12sp"
+                                font_size: "11sp"
                                 bold: True
                                 theme_text_color: "Custom"
                                 text_color: app.blue
@@ -1729,73 +1792,79 @@ KV = '''#:import dp kivy.metrics.dp
                     line_color: app.surface_container
                     line_width: 1
                     size_hint_y: None
-                    height: dp(210)
+                    height: self.minimum_height
 
                     MDLabel:
                         text: "EMERGENCY PROTOCOL & HELP GUIDE"
-                        font_size: "11sp"
+                        font_size: "10sp"
                         bold: True
                         size_hint_y: None
-                        height: dp(18)
+                        height: dp(14)
                         theme_text_color: "Custom"
                         text_color: app.text_secondary
 
                     MDBoxLayout:
                         spacing: dp(8)
                         size_hint_y: None
-                        height: dp(36)
+                        height: self.minimum_height
                         MDIcon:
                             icon: "gesture-tap-hold"
                             theme_text_color: "Custom"
                             text_color: app.blue
-                            font_size: "20sp"
-                            pos_hint: {"center_y": .5}
+                            font_size: "18sp"
+                            pos_hint: {"top": 1}
                         MDLabel:
                             text: "Press & hold SOS for 2 seconds to initiate emergency broadcast."
                             font_size: "11sp"
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                            text_size: self.width, None
                             theme_text_color: "Custom"
                             text_color: app.text_primary
-                            pos_hint: {"center_y": .5}
 
                     MDBoxLayout:
                         spacing: dp(8)
                         size_hint_y: None
-                        height: dp(36)
+                        height: self.minimum_height
                         MDIcon:
                             icon: "satellite-uplink"
                             theme_text_color: "Custom"
                             text_color: app.blue
-                            font_size: "20sp"
-                            pos_hint: {"center_y": .5}
+                            font_size: "18sp"
+                            pos_hint: {"top": 1}
                         MDLabel:
                             text: "Satellite GPS & SMS operate without Internet data or Wi-Fi."
                             font_size: "11sp"
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                            text_size: self.width, None
                             theme_text_color: "Custom"
                             text_color: app.text_primary
-                            pos_hint: {"center_y": .5}
 
                     MDBoxLayout:
                         spacing: dp(8)
                         size_hint_y: None
-                        height: dp(36)
+                        height: self.minimum_height
                         MDIcon:
                             icon: "shield-refresh"
                             theme_text_color: "Custom"
                             text_color: app.blue
-                            font_size: "20sp"
-                            pos_hint: {"center_y": .5}
+                            font_size: "18sp"
+                            pos_hint: {"top": 1}
                         MDLabel:
                             text: "Press and hold Cancel on the Active screen to resolve an alert."
                             font_size: "11sp"
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                            text_size: self.width, None
                             theme_text_color: "Custom"
                             text_color: app.text_primary
-                            pos_hint: {"center_y": .5}
 
-                # APP VERSION & BUILD CARD
+                # APP VERSION & BUILD CARD - DYNAMIC FLEXIBLE HEIGHT
                 MDCard:
                     orientation: "vertical"
                     padding: dp(14), dp(10)
-                    spacing: dp(4)
+                    spacing: dp(6)
                     radius: [14, 14, 14, 14]
                     elevation: 0
                     theme_bg_color: "Custom"
@@ -1803,11 +1872,12 @@ KV = '''#:import dp kivy.metrics.dp
                     line_color: app.surface_container
                     line_width: 1
                     size_hint_y: None
-                    height: dp(64)
+                    height: self.minimum_height
 
                     MDBoxLayout:
+                        size_hint_y: None
+                        height: dp(22)
                         spacing: dp(6)
-                        pos_hint: {"center_y": .5}
 
                         MDIcon:
                             icon: "shield-check"
@@ -1818,17 +1888,19 @@ KV = '''#:import dp kivy.metrics.dp
 
                         MDLabel:
                             text: "ALERTX MOBILE APK"
-                            font_size: "10sp"
+                            font_size: "11sp"
                             bold: True
                             theme_text_color: "Custom"
                             text_color: app.text_secondary
                             pos_hint: {"center_y": .5}
 
+                        Widget:
+
                         MDLabel:
                             text: "v0.1.0 (Build 1026100)"
-                            font_size: "12sp"
+                            font_size: "11sp"
                             bold: True
-                            halign: "right"
+                            adaptive_width: True
                             theme_text_color: "Custom"
                             text_color: app.text_primary
                             pos_hint: {"center_y": .5}
@@ -1836,26 +1908,29 @@ KV = '''#:import dp kivy.metrics.dp
                     MDLabel:
                         text: "Production APK Release • Android API 34 • arm64-v8a"
                         font_size: "10sp"
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                        text_size: self.width, None
                         theme_text_color: "Custom"
                         text_color: app.text_secondary
 
                 MDLabel:
                     text: root.status_text
-                    font_size: "13sp"
+                    font_size: "12sp"
                     bold: True
                     halign: "center"
                     theme_text_color: "Custom"
                     text_color: app.green
                     size_hint_y: None
-                    height: dp(24)
+                    height: dp(24) if root.status_text else dp(0)
 
         # BOTTOM NAVIGATION BAR (Safety Active)
         MDBoxLayout:
             size_hint_y: None
-            height: dp(68)
+            height: dp(64)
             theme_bg_color: "Custom"
             md_bg_color: app.surface_lowest
-            padding: dp(8), dp(4)
+            padding: dp(6), dp(4)
 
             ClickableCard:
                 size_hint_x: 0.25
@@ -1872,8 +1947,8 @@ KV = '''#:import dp kivy.metrics.dp
 
                     MDCard:
                         size_hint: None, None
-                        size: dp(54), dp(28)
-                        radius: [14, 14, 14, 14]
+                        size: dp(50), dp(26)
+                        radius: [13, 13, 13, 13]
                         theme_bg_color: "Custom"
                         md_bg_color: [0, 0, 0, 0]
                         pos_hint: {"center_x": .5}
@@ -1883,7 +1958,7 @@ KV = '''#:import dp kivy.metrics.dp
                             pos_hint: {"center_x": .5, "center_y": .5}
                             theme_text_color: "Custom"
                             text_color: app.text_secondary
-                            font_size: "20sp"
+                            font_size: "18sp"
 
                     MDLabel:
                         text: "Home"
@@ -1907,8 +1982,8 @@ KV = '''#:import dp kivy.metrics.dp
 
                     MDCard:
                         size_hint: None, None
-                        size: dp(54), dp(28)
-                        radius: [14, 14, 14, 14]
+                        size: dp(50), dp(26)
+                        radius: [13, 13, 13, 13]
                         theme_bg_color: "Custom"
                         md_bg_color: [0, 0, 0, 0]
                         pos_hint: {"center_x": .5}
@@ -1918,7 +1993,7 @@ KV = '''#:import dp kivy.metrics.dp
                             pos_hint: {"center_x": .5, "center_y": .5}
                             theme_text_color: "Custom"
                             text_color: app.text_secondary
-                            font_size: "20sp"
+                            font_size: "18sp"
 
                     MDLabel:
                         text: "Contacts"
@@ -1942,8 +2017,8 @@ KV = '''#:import dp kivy.metrics.dp
 
                     MDCard:
                         size_hint: None, None
-                        size: dp(54), dp(28)
-                        radius: [14, 14, 14, 14]
+                        size: dp(50), dp(26)
+                        radius: [13, 13, 13, 13]
                         theme_bg_color: "Custom"
                         md_bg_color: app.surface_container
                         pos_hint: {"center_x": .5}
@@ -1953,7 +2028,7 @@ KV = '''#:import dp kivy.metrics.dp
                             pos_hint: {"center_x": .5, "center_y": .5}
                             theme_text_color: "Custom"
                             text_color: app.blue
-                            font_size: "20sp"
+                            font_size: "18sp"
 
                     MDLabel:
                         text: "Safety"
@@ -1978,8 +2053,8 @@ KV = '''#:import dp kivy.metrics.dp
 
                     MDCard:
                         size_hint: None, None
-                        size: dp(54), dp(28)
-                        radius: [14, 14, 14, 14]
+                        size: dp(50), dp(26)
+                        radius: [13, 13, 13, 13]
                         theme_bg_color: "Custom"
                         md_bg_color: [0, 0, 0, 0]
                         pos_hint: {"center_x": .5}
@@ -1989,7 +2064,7 @@ KV = '''#:import dp kivy.metrics.dp
                             pos_hint: {"center_x": .5, "center_y": .5}
                             theme_text_color: "Custom"
                             text_color: app.text_secondary
-                            font_size: "20sp"
+                            font_size: "18sp"
 
                     MDLabel:
                         text: "Help"
@@ -2018,8 +2093,8 @@ KV = '''#:import dp kivy.metrics.dp
 
             ClickableCard:
                 size_hint: None, None
-                size: dp(38), dp(38)
-                radius: [19, 19, 19, 19]
+                size: dp(36), dp(36)
+                radius: [18, 18, 18, 18]
                 theme_bg_color: "Custom"
                 md_bg_color: app.surface_lowest
                 line_color: app.surface_container
@@ -2032,11 +2107,11 @@ KV = '''#:import dp kivy.metrics.dp
                     pos_hint: {"center_x": .5, "center_y": .5}
                     theme_text_color: "Custom"
                     text_color: app.text_primary
-                    font_size: "22sp"
+                    font_size: "20sp"
 
             MDLabel:
                 text: "Active SOS Dispatch"
-                font_size: "18sp"
+                font_size: "17sp"
                 bold: True
                 theme_text_color: "Custom"
                 text_color: app.text_primary
@@ -2074,7 +2149,7 @@ KV = '''#:import dp kivy.metrics.dp
                 # TOP BEACON BANNER (Dark Crimson)
                 MDCard:
                     orientation: "vertical"
-                    padding: dp(18)
+                    padding: dp(16)
                     spacing: dp(6)
                     radius: [16, 16, 16, 16]
                     elevation: 2
@@ -2083,7 +2158,7 @@ KV = '''#:import dp kivy.metrics.dp
                     line_color: app.crimson
                     line_width: 1
                     size_hint_y: None
-                    height: dp(132)
+                    height: self.minimum_height
 
                     MDBoxLayout:
                         size_hint_y: None
@@ -2100,7 +2175,7 @@ KV = '''#:import dp kivy.metrics.dp
 
                         MDLabel:
                             text: "LIVE TRANSMISSION"
-                            font_size: "11sp"
+                            font_size: "10sp"
                             bold: True
                             theme_text_color: "Custom"
                             text_color: app.crimson_coral
@@ -2109,8 +2184,8 @@ KV = '''#:import dp kivy.metrics.dp
 
                         MDCard:
                             size_hint: None, None
-                            size: dp(142), dp(26)
-                            radius: [13, 13, 13, 13]
+                            size: dp(130), dp(24)
+                            radius: [12, 12, 12, 12]
                             theme_bg_color: "Custom"
                             md_bg_color: [1, 1, 1, 0.15]
                             padding: dp(6), dp(2)
@@ -2121,7 +2196,7 @@ KV = '''#:import dp kivy.metrics.dp
                                 icon: "access-point"
                                 theme_text_color: "Custom"
                                 text_color: app.crimson_coral
-                                font_size: "15sp"
+                                font_size: "14sp"
                                 pos_hint: {"center_y": .5}
 
                             MDLabel:
@@ -2134,20 +2209,21 @@ KV = '''#:import dp kivy.metrics.dp
 
                     MDLabel:
                         text: "EMERGENCY ACTIVE"
-                        font_size: "24sp"
+                        font_size: "22sp"
                         bold: True
+                        size_hint_y: None
+                        height: self.texture_size[1]
                         theme_text_color: "Custom"
                         text_color: app.white
-                        size_hint_y: None
-                        height: dp(32)
 
                     MDLabel:
                         text: "Alert broadcast initiated at " + root.start_time_text + ". Session ID: #" + root.session_id
-                        font_size: "12sp"
+                        font_size: "11sp"
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                        text_size: self.width, None
                         theme_text_color: "Custom"
                         text_color: [1, 1, 1, 0.85]
-                        size_hint_y: None
-                        height: dp(20)
 
                 # CARD 1: 1. LOCATION STATUS
                 MDCard:
@@ -2161,7 +2237,7 @@ KV = '''#:import dp kivy.metrics.dp
                     line_color: app.surface_container
                     line_width: 1
                     size_hint_y: None
-                    height: dp(286)
+                    height: self.minimum_height
 
                     MDBoxLayout:
                         size_hint_y: None
@@ -2181,11 +2257,11 @@ KV = '''#:import dp kivy.metrics.dp
                                 pos_hint: {"center_x": .5, "center_y": .5}
                                 theme_text_color: "Custom"
                                 text_color: app.blue
-                                font_size: "20sp"
+                                font_size: "18sp"
 
                         MDLabel:
                             text: "1. Location Status"
-                            font_size: "15sp"
+                            font_size: "14sp"
                             bold: True
                             size_hint_x: 1
                             theme_text_color: "Custom"
@@ -2194,8 +2270,8 @@ KV = '''#:import dp kivy.metrics.dp
 
                         MDCard:
                             size_hint: None, None
-                            size: dp(150), dp(26)
-                            radius: [13, 13, 13, 13]
+                            size: dp(140), dp(24)
+                            radius: [12, 12, 12, 12]
                             theme_bg_color: "Custom"
                             md_bg_color: [0.05, 0.29, 0.43, 0.4]
                             padding: dp(6), dp(2)
@@ -2206,9 +2282,9 @@ KV = '''#:import dp kivy.metrics.dp
                                 icon: "check-circle"
                                 theme_text_color: "Custom"
                                 text_color: app.blue
-                                font_size: "15sp"
+                                font_size: "14sp"
                                 size_hint_x: None
-                                width: dp(16)
+                                width: dp(14)
                                 pos_hint: {"center_y": .5}
 
                             MDLabel:
@@ -2222,7 +2298,7 @@ KV = '''#:import dp kivy.metrics.dp
                     # Map preview area
                     MDCard:
                         size_hint_y: None
-                        height: dp(80)
+                        height: self.minimum_height
                         radius: [12, 12, 12, 12]
                         theme_bg_color: "Custom"
                         md_bg_color: app.surface_low
@@ -2230,37 +2306,41 @@ KV = '''#:import dp kivy.metrics.dp
 
                         MDBoxLayout:
                             orientation: "vertical"
-                            pos_hint: {"center_y": .5}
                             spacing: dp(4)
+                            size_hint_y: None
+                            height: self.minimum_height
 
                             MDBoxLayout:
                                 spacing: dp(6)
                                 size_hint_y: None
-                                height: dp(22)
+                                height: dp(20)
 
                                 MDIcon:
                                     icon: "map-marker"
                                     theme_text_color: "Custom"
                                     text_color: app.crimson
-                                    font_size: "20sp"
+                                    font_size: "18sp"
 
                                 MDLabel:
                                     text: "Real GPS Satellite Position"
-                                    font_size: "13sp"
+                                    font_size: "12sp"
                                     bold: True
                                     theme_text_color: "Custom"
                                     text_color: app.text_primary
 
                             MDLabel:
                                 text: root.coordinates
-                                font_size: "12sp"
+                                font_size: "11sp"
+                                size_hint_y: None
+                                height: self.texture_size[1]
+                                text_size: self.width, None
                                 theme_text_color: "Custom"
                                 text_color: app.text_secondary
 
                     # Coordinates & Accuracy 2-column grid
                     MDBoxLayout:
                         size_hint_y: None
-                        height: dp(66)
+                        height: self.minimum_height
                         spacing: dp(10)
 
                         MDCard:
@@ -2271,13 +2351,15 @@ KV = '''#:import dp kivy.metrics.dp
                             radius: [8, 8, 8, 8]
                             theme_bg_color: "Custom"
                             md_bg_color: app.surface_low
+                            size_hint_y: None
+                            height: self.minimum_height
 
                             MDLabel:
                                 text: "COORDINATES"
                                 font_size: "9sp"
                                 bold: True
                                 size_hint_y: None
-                                height: dp(14)
+                                height: dp(12)
                                 theme_text_color: "Custom"
                                 text_color: app.text_secondary
 
@@ -2285,7 +2367,9 @@ KV = '''#:import dp kivy.metrics.dp
                                 text: root.coordinates
                                 font_size: "10sp"
                                 bold: True
-                                shorten: False
+                                size_hint_y: None
+                                height: self.texture_size[1]
+                                text_size: self.width, None
                                 theme_text_color: "Custom"
                                 text_color: app.text_primary
 
@@ -2297,37 +2381,46 @@ KV = '''#:import dp kivy.metrics.dp
                             radius: [8, 8, 8, 8]
                             theme_bg_color: "Custom"
                             md_bg_color: app.surface_low
+                            size_hint_y: None
+                            height: self.minimum_height
 
                             MDLabel:
                                 text: "ACCURACY"
                                 font_size: "9sp"
                                 bold: True
                                 size_hint_y: None
-                                height: dp(14)
+                                height: dp(12)
                                 theme_text_color: "Custom"
                                 text_color: app.text_secondary
 
                             MDLabel:
                                 text: root.accuracy_str
-                                font_size: "12sp"
+                                font_size: "11sp"
                                 bold: True
+                                size_hint_y: None
+                                height: self.texture_size[1]
+                                text_size: self.width, None
                                 theme_text_color: "Custom"
                                 text_color: app.blue
 
                     MDBoxLayout:
                         spacing: dp(6)
                         size_hint_y: None
-                        height: dp(18)
+                        height: self.minimum_height
 
                         MDIcon:
                             icon: "paperclip"
                             theme_text_color: "Custom"
                             text_color: app.text_secondary
-                            font_size: "15sp"
+                            font_size: "14sp"
+                            pos_hint: {"top": 1}
 
                         MDLabel:
                             text: "Location payload attached to emergency dispatch"
-                            font_size: "11sp"
+                            font_size: "10sp"
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                            text_size: self.width, None
                             theme_text_color: "Custom"
                             text_color: app.text_secondary
 
@@ -2343,7 +2436,7 @@ KV = '''#:import dp kivy.metrics.dp
                     line_color: app.surface_container
                     line_width: 1
                     size_hint_y: None
-                    height: dp(278)
+                    height: self.minimum_height
 
                     MDBoxLayout:
                         size_hint_y: None
@@ -2367,7 +2460,7 @@ KV = '''#:import dp kivy.metrics.dp
 
                         MDLabel:
                             text: "2. Emergency SMS"
-                            font_size: "15sp"
+                            font_size: "14sp"
                             bold: True
                             size_hint_x: 1
                             theme_text_color: "Custom"
@@ -2376,8 +2469,8 @@ KV = '''#:import dp kivy.metrics.dp
 
                         MDCard:
                             size_hint: None, None
-                            size: dp(132), dp(26)
-                            radius: [13, 13, 13, 13]
+                            size: dp(120), dp(24)
+                            radius: [12, 12, 12, 12]
                             theme_bg_color: "Custom"
                             md_bg_color: app.green_light
                             padding: dp(6), dp(2)
@@ -2388,7 +2481,7 @@ KV = '''#:import dp kivy.metrics.dp
                                 icon: "check-all"
                                 theme_text_color: "Custom"
                                 text_color: app.green
-                                font_size: "15sp"
+                                font_size: "14sp"
                                 pos_hint: {"center_y": .5}
 
                             MDLabel:
@@ -2402,7 +2495,7 @@ KV = '''#:import dp kivy.metrics.dp
                     # Recipient row
                     MDCard:
                         size_hint_y: None
-                        height: dp(48)
+                        height: dp(46)
                         radius: [10, 10, 10, 10]
                         theme_bg_color: "Custom"
                         md_bg_color: app.surface_low
@@ -2411,8 +2504,8 @@ KV = '''#:import dp kivy.metrics.dp
 
                         MDCard:
                             size_hint: None, None
-                            size: dp(32), dp(32)
-                            radius: [16, 16, 16, 16]
+                            size: dp(30), dp(30)
+                            radius: [15, 15, 15, 15]
                             theme_bg_color: "Custom"
                             md_bg_color: app.surface_lowest
                             line_color: app.blue
@@ -2421,7 +2514,7 @@ KV = '''#:import dp kivy.metrics.dp
 
                             MDLabel:
                                 text: root.recipient_initials
-                                font_size: "13sp"
+                                font_size: "12sp"
                                 bold: True
                                 halign: "center"
                                 theme_text_color: "Custom"
@@ -2433,14 +2526,14 @@ KV = '''#:import dp kivy.metrics.dp
 
                             MDLabel:
                                 text: root.recipient_name
-                                font_size: "13sp"
+                                font_size: "12sp"
                                 bold: True
                                 theme_text_color: "Custom"
                                 text_color: app.text_primary
 
                             MDLabel:
                                 text: root.recipient_phone
-                                font_size: "11sp"
+                                font_size: "10sp"
                                 theme_text_color: "Custom"
                                 text_color: app.text_secondary
 
@@ -2455,7 +2548,7 @@ KV = '''#:import dp kivy.metrics.dp
                     # Payload quote box
                     MDCard:
                         size_hint_y: None
-                        height: dp(80)
+                        height: self.minimum_height
                         radius: [8, 8, 8, 8]
                         theme_bg_color: "Custom"
                         md_bg_color: app.surface_low
@@ -2464,22 +2557,29 @@ KV = '''#:import dp kivy.metrics.dp
                         MDLabel:
                             markup: True
                             text: root.sms_payload_markup
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                            text_size: self.width, None
                             pos_hint: {"center_y": .5}
 
                     MDBoxLayout:
                         spacing: dp(6)
                         size_hint_y: None
-                        height: dp(18)
+                        height: self.minimum_height
 
                         MDIcon:
                             icon: "transmission-tower"
                             theme_text_color: "Custom"
                             text_color: app.text_secondary
-                            font_size: "15sp"
+                            font_size: "14sp"
+                            pos_hint: {"top": 1}
 
                         MDLabel:
                             text: "SMS cellular network dispatch verified"
-                            font_size: "11sp"
+                            font_size: "10sp"
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                            text_size: self.width, None
                             theme_text_color: "Custom"
                             text_color: app.text_secondary
 
@@ -2495,7 +2595,7 @@ KV = '''#:import dp kivy.metrics.dp
                     line_color: app.surface_container
                     line_width: 1
                     size_hint_y: None
-                    height: dp(146)
+                    height: self.minimum_height
 
                     MDBoxLayout:
                         size_hint_y: None
@@ -2519,7 +2619,7 @@ KV = '''#:import dp kivy.metrics.dp
 
                         MDLabel:
                             text: "3. Monitor State"
-                            font_size: "15sp"
+                            font_size: "14sp"
                             bold: True
                             size_hint_x: 1
                             theme_text_color: "Custom"
@@ -2528,8 +2628,8 @@ KV = '''#:import dp kivy.metrics.dp
 
                         MDCard:
                             size_hint: None, None
-                            size: dp(132), dp(26)
-                            radius: [13, 13, 13, 13]
+                            size: dp(120), dp(24)
+                            radius: [12, 12, 12, 12]
                             theme_bg_color: "Custom"
                             md_bg_color: app.crimson_light
                             line_color: app.crimson
@@ -2542,7 +2642,7 @@ KV = '''#:import dp kivy.metrics.dp
                                 icon: "timer-outline"
                                 theme_text_color: "Custom"
                                 text_color: app.crimson_coral
-                                font_size: "15sp"
+                                font_size: "14sp"
                                 pos_hint: {"center_y": .5}
 
                             MDLabel:
@@ -2555,8 +2655,8 @@ KV = '''#:import dp kivy.metrics.dp
 
                     MDBoxLayout:
                         size_hint_y: None
-                        height: dp(56)
-                        spacing: dp(10)
+                        height: dp(52)
+                        spacing: dp(8)
 
                         MDCard:
                             size_hint_x: 0.5
@@ -2570,7 +2670,7 @@ KV = '''#:import dp kivy.metrics.dp
                                 icon: "volume-high"
                                 theme_text_color: "Custom"
                                 text_color: app.blue
-                                font_size: "20sp"
+                                font_size: "18sp"
                                 pos_hint: {"center_y": .5}
 
                             MDBoxLayout:
@@ -2579,13 +2679,13 @@ KV = '''#:import dp kivy.metrics.dp
 
                                 MDLabel:
                                     text: "Emergency Call"
-                                    font_size: "10sp"
+                                    font_size: "9sp"
                                     theme_text_color: "Custom"
                                     text_color: app.text_secondary
 
                                 MDLabel:
                                     text: root.call_status
-                                    font_size: "11sp"
+                                    font_size: "10sp"
                                     bold: True
                                     shorten: True
                                     theme_text_color: "Custom"
@@ -2603,7 +2703,7 @@ KV = '''#:import dp kivy.metrics.dp
                                 icon: "vibrate"
                                 theme_text_color: "Custom"
                                 text_color: app.blue
-                                font_size: "20sp"
+                                font_size: "18sp"
                                 pos_hint: {"center_y": .5}
 
                             MDBoxLayout:
@@ -2612,13 +2712,13 @@ KV = '''#:import dp kivy.metrics.dp
 
                                 MDLabel:
                                     text: "Haptics"
-                                    font_size: "10sp"
+                                    font_size: "9sp"
                                     theme_text_color: "Custom"
                                     text_color: app.text_secondary
 
                                 MDLabel:
                                     text: "Continuous SOS"
-                                    font_size: "11sp"
+                                    font_size: "10sp"
                                     bold: True
                                     theme_text_color: "Custom"
                                     text_color: app.text_primary
@@ -2627,12 +2727,12 @@ KV = '''#:import dp kivy.metrics.dp
                 MDBoxLayout:
                     orientation: "vertical"
                     size_hint_y: None
-                    height: dp(86)
+                    height: self.minimum_height
                     spacing: dp(6)
 
                     ClickableCard:
                         size_hint_y: None
-                        height: dp(54)
+                        height: dp(50)
                         radius: [14, 14, 14, 14]
                         elevation: 2
                         theme_bg_color: "Custom"
@@ -2650,12 +2750,12 @@ KV = '''#:import dp kivy.metrics.dp
                                 icon: "close-circle"
                                 theme_text_color: "Custom"
                                 text_color: app.crimson
-                                font_size: "22sp"
+                                font_size: "20sp"
                                 pos_hint: {"center_y": .5}
 
                             MDLabel:
                                 text: root.cancel_status_text
-                                font_size: "14sp"
+                                font_size: "13sp"
                                 bold: True
                                 theme_text_color: "Custom"
                                 text_color: app.crimson
@@ -2664,18 +2764,22 @@ KV = '''#:import dp kivy.metrics.dp
                     MDBoxLayout:
                         spacing: dp(4)
                         size_hint_y: None
-                        height: dp(18)
+                        height: self.minimum_height
                         pos_hint: {"center_x": .5}
 
                         MDIcon:
                             icon: "information-outline"
                             theme_text_color: "Custom"
                             text_color: app.text_secondary
-                            font_size: "15sp"
+                            font_size: "14sp"
+                            pos_hint: {"top": 1}
 
                         MDLabel:
                             text: "Cancelling will mark the session resolved and notify contacts you are safe."
-                            font_size: "11sp"
+                            font_size: "10sp"
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                            text_size: self.width, None
                             theme_text_color: "Custom"
                             text_color: app.text_secondary
 '''
