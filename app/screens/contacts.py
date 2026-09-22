@@ -25,12 +25,12 @@ class ContactsScreen(Screen):
     selected_relation = StringProperty("Spouse")
     is_active = BooleanProperty(True)
     automated_sos_markup = StringProperty(
-        "[b][color=0B1C30]Automated SOS Protocol[/color][/b]\n"
-        "[size=11sp][color=45464D]When SOS is triggered, an SMS alert with your real-time location link will automatically be sent to this person.[/color][/size]"
+        "[b][color=F8FAFC]Automated SOS Protocol[/color][/b]\n"
+        "[size=11sp][color=94A3B8]When SOS is triggered, an SMS alert with your real-time location link will automatically be sent to this person.[/color][/size]"
     )
     intro_markup = StringProperty(
-        "[b][size=20sp][color=0B1C30]Emergency Contact[/color][/size][/b]\n"
-        "[size=13sp][color=45464D]Set up your one trusted primary contact for SOS alerts[/color][/size]"
+        "[b][size=19sp][color=F8FAFC]Emergency Contact[/color][/size][/b]\n"
+        "[size=12sp][color=94A3B8]Set up your one trusted primary contact for SOS alerts[/color][/size]"
     )
 
 

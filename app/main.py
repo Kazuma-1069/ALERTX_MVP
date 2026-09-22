@@ -32,8 +32,7 @@ class ClickableCard(MDCard):
     pass
 
 
-KV = '''
-#:import dp kivy.metrics.dp
+KV = '''#:import dp kivy.metrics.dp
 
 <ClickableCard>:
     ripple_behavior: True
@@ -64,7 +63,9 @@ KV = '''
                 size: dp(42), dp(42)
                 radius: [12, 12, 12, 12]
                 theme_bg_color: "Custom"
-                md_bg_color: app.black
+                md_bg_color: app.surface_lowest
+                line_color: app.surface_container
+                line_width: 1
                 padding: dp(8)
                 pos_hint: {"center_y": .5}
 
@@ -72,57 +73,61 @@ KV = '''
                     icon: "shield-outline"
                     pos_hint: {"center_x": .5, "center_y": .5}
                     theme_text_color: "Custom"
-                    text_color: app.white
+                    text_color: app.blue
                     font_size: "24sp"
 
             MDLabel:
                 markup: True
-                text: "[b][size=13sp][color=0051D5]ALERTX[/color][/size][/b]   [size=12sp][color=45464D]•[/color][/size]   [b][size=18sp][color=0B1C30]Home[/color][/size][/b]"
+                text: "[b][size=12sp][color=38BDF8]ALERTX[/color][/size]   [color=64748B]•[/color]   [size=16sp][color=F8FAFC]Home[/color][/b]"
                 size_hint_x: 1
                 pos_hint: {"center_y": .5}
 
             # Online capsule badge
             MDCard:
                 size_hint: None, None
-                size: dp(114), dp(28)
+                size: dp(118), dp(30)
                 radius: [self.height / 2, self.height / 2, self.height / 2, self.height / 2]
                 theme_bg_color: "Custom"
-                md_bg_color: app.surface_container
-                padding: dp(8), dp(4)
+                md_bg_color: app.surface_lowest
+                line_color: app.surface_container
+                line_width: 1
+                padding: dp(10), dp(4)
                 spacing: dp(6)
                 pos_hint: {"center_y": .5}
 
                 MDCard:
                     size_hint: None, None
-                    size: dp(6), dp(6)
+                    size: dp(8), dp(8)
                     radius: [self.width / 2, self.width / 2, self.width / 2, self.width / 2]
                     pos_hint: {"center_y": .5}
                     theme_bg_color: "Custom"
-                    md_bg_color: app.blue
+                    md_bg_color: app.green if root.online_badge_text == "ONLINE" else app.blue
 
                 MDLabel:
                     text: root.online_badge_text
-                    font_size: "10sp"
+                    font_size: "11sp"
                     bold: True
                     adaptive_size: True
                     theme_text_color: "Custom"
-                    text_color: app.text_secondary
+                    text_color: app.green if root.online_badge_text == "ONLINE" else app.blue
                     pos_hint: {"center_y": .5}
 
             MDCard:
                 size_hint: None, None
-                size: dp(34), dp(34)
+                size: dp(36), dp(36)
                 radius: [self.width / 2, self.width / 2, self.width / 2, self.width / 2]
                 theme_bg_color: "Custom"
-                md_bg_color: app.black
+                md_bg_color: app.surface_lowest
+                line_color: app.surface_container
+                line_width: 1
                 pos_hint: {"center_y": .5}
 
                 MDIcon:
                     icon: "account"
                     pos_hint: {"center_x": .5, "center_y": .5}
                     theme_text_color: "Custom"
-                    text_color: app.white
-                    font_size: "18sp"
+                    text_color: app.text_primary
+                    font_size: "20sp"
 
         # SCROLLABLE CONTENT
         ScrollView:
@@ -138,15 +143,17 @@ KV = '''
                 # ALERTX PRO / ARMED BANNER
                 MDBoxLayout:
                     size_hint_y: None
-                    height: dp(60)
-                    spacing: dp(10)
+                    height: dp(54)
+                    spacing: dp(12)
 
                     MDCard:
                         size_hint: None, None
                         size: dp(46), dp(46)
-                        radius: [12, 12, 12, 12]
+                        radius: [14, 14, 14, 14]
                         theme_bg_color: "Custom"
-                        md_bg_color: app.primary_container
+                        md_bg_color: app.surface_lowest
+                        line_color: app.surface_container
+                        line_width: 1
                         pos_hint: {"center_y": .5}
 
                         MDIcon:
@@ -166,10 +173,12 @@ KV = '''
                     # Armed Badge
                     MDCard:
                         size_hint: None, None
-                        size: dp(106), dp(30)
-                        radius: [15, 15, 15, 15]
+                        size: dp(106), dp(32)
+                        radius: [16, 16, 16, 16]
                         theme_bg_color: "Custom"
-                        md_bg_color: app.surface_high
+                        md_bg_color: app.green_light
+                        line_color: app.green
+                        line_width: 1
                         padding: dp(8), dp(4)
                         spacing: dp(6)
                         pos_hint: {"center_y": .5}
@@ -177,7 +186,7 @@ KV = '''
                         MDIcon:
                             icon: "shield-check"
                             theme_text_color: "Custom"
-                            text_color: app.blue
+                            text_color: app.green
                             font_size: "16sp"
                             pos_hint: {"center_y": .5}
 
@@ -186,7 +195,7 @@ KV = '''
                             font_size: "11sp"
                             bold: True
                             theme_text_color: "Custom"
-                            text_color: app.text_primary
+                            text_color: app.green
                             pos_hint: {"center_y": .5}
 
                 # CARD 1: EMERGENCY CONTACT
@@ -198,6 +207,8 @@ KV = '''
                     elevation: 1
                     theme_bg_color: "Custom"
                     md_bg_color: app.surface_lowest
+                    line_color: app.surface_container
+                    line_width: 1
                     size_hint_y: None
                     height: dp(82)
                     on_release: app.go_contacts()
@@ -227,7 +238,7 @@ KV = '''
                         size: dp(96), dp(28)
                         radius: [14, 14, 14, 14]
                         theme_bg_color: "Custom"
-                        md_bg_color: app.surface_low
+                        md_bg_color: app.green_light
                         padding: dp(8), dp(2)
                         spacing: dp(4)
                         pos_hint: {"center_y": .5}
@@ -235,7 +246,7 @@ KV = '''
                         MDIcon:
                             icon: "check-circle"
                             theme_text_color: "Custom"
-                            text_color: app.blue
+                            text_color: app.green
                             font_size: "16sp"
                             pos_hint: {"center_y": .5}
 
@@ -244,7 +255,7 @@ KV = '''
                             font_size: "11sp"
                             bold: True
                             theme_text_color: "Custom"
-                            text_color: app.blue
+                            text_color: app.green
                             pos_hint: {"center_y": .5}
 
                 # CARD 2: LOCATION SERVICES
@@ -256,6 +267,8 @@ KV = '''
                     elevation: 1
                     theme_bg_color: "Custom"
                     md_bg_color: app.surface_lowest
+                    line_color: app.surface_container
+                    line_width: 1
                     size_hint_y: None
                     height: dp(82)
 
@@ -268,7 +281,7 @@ KV = '''
                         pos_hint: {"center_y": .5}
 
                         MDIcon:
-                            icon: "map-marker"
+                            icon: "map-marker-radius"
                             pos_hint: {"center_x": .5, "center_y": .5}
                             theme_text_color: "Custom"
                             text_color: app.blue
@@ -284,13 +297,13 @@ KV = '''
                         size: dp(76), dp(28)
                         radius: [14, 14, 14, 14]
                         theme_bg_color: "Custom"
-                        md_bg_color: app.surface_low
+                        md_bg_color: [0.05, 0.29, 0.43, 0.4]
                         padding: dp(8), dp(2)
                         spacing: dp(4)
                         pos_hint: {"center_y": .5}
 
                         MDIcon:
-                            icon: "checkbox-marked-circle-outline"
+                            icon: "satellite-uplink"
                             theme_text_color: "Custom"
                             text_color: app.blue
                             font_size: "16sp"
@@ -312,45 +325,43 @@ KV = '''
                     padding: dp(0), dp(4)
                     spacing: dp(14)
 
-                    # Circular Outer Aura, White Highlight Ring & SOS Button
+                    # Concentric Glowing Rings & Central SOS Beacon
                     AnchorLayout:
                         anchor_x: "center"
                         anchor_y: "center"
                         size_hint_y: None
                         height: dp(246)
 
-                        # Outer Soft Aura (Pink/Reddish)
+                        # Outer Soft Aura (Glow Ring 1)
                         MDCard:
                             size_hint: None, None
-                            size: dp(234), dp(234)
+                            size: dp(240), dp(240)
                             radius: [self.width / 2, self.width / 2, self.width / 2, self.width / 2]
                             theme_bg_color: "Custom"
-                            md_bg_color: [0.73, 0.10, 0.10, 0.08]
+                            md_bg_color: [0.93, 0.26, 0.26, 0.10]
 
-                        # White Highlight Ring
+                        # Inner Aura (Glow Ring 2)
                         MDCard:
                             size_hint: None, None
-                            size: dp(198), dp(198)
+                            size: dp(204), dp(204)
                             radius: [self.width / 2, self.width / 2, self.width / 2, self.width / 2]
                             theme_bg_color: "Custom"
-                            md_bg_color: [1, 1, 1, 0.95]
-                            elevation: 1
+                            md_bg_color: [0.93, 0.26, 0.26, 0.22]
 
                         # Main Crimson SOS Button
                         ClickableCard:
                             size_hint: None, None
-                            size: dp(184), dp(184)
+                            size: dp(174), dp(174)
                             radius: [self.width / 2, self.width / 2, self.width / 2, self.width / 2]
-                            elevation: 4
+                            elevation: 6
                             theme_bg_color: "Custom"
                             md_bg_color: app.crimson
                             on_touch_down: if self.collide_point(*args[1].pos): root.on_sos_press()
                             on_touch_up: root.on_sos_release()
 
-
                             MDBoxLayout:
                                 orientation: "vertical"
-                                padding: dp(14), dp(12)
+                                padding: dp(12), dp(10)
                                 spacing: dp(2)
                                 pos_hint: {"center_x": .5, "center_y": .5}
 
@@ -358,14 +369,14 @@ KV = '''
                                     anchor_x: "center"
                                     anchor_y: "center"
                                     size_hint_y: None
-                                    height: dp(48)
+                                    height: dp(42)
 
                                     MDCard:
                                         size_hint: None, None
-                                        size: dp(48), dp(48)
+                                        size: dp(42), dp(42)
                                         radius: [self.width / 2, self.width / 2, self.width / 2, self.width / 2]
                                         theme_bg_color: "Custom"
-                                        md_bg_color: [1, 1, 1, 0.18]
+                                        md_bg_color: [1, 1, 1, 0.22]
 
                                         AnchorLayout:
                                             anchor_x: "center"
@@ -375,13 +386,14 @@ KV = '''
                                                 icon: "power"
                                                 theme_text_color: "Custom"
                                                 text_color: app.white
-                                                font_size: "26sp"
+                                                font_size: "24sp"
 
                                 MDLabel:
                                     text: "SOS"
-                                    font_size: "38sp"
+                                    font_size: "36sp"
                                     bold: True
                                     halign: "center"
+                                    valign: "middle"
                                     theme_text_color: "Custom"
                                     text_color: app.white
                                     size_hint_y: None
@@ -392,8 +404,9 @@ KV = '''
                                     font_size: "10sp"
                                     bold: True
                                     halign: "center"
+                                    valign: "middle"
                                     theme_text_color: "Custom"
-                                    text_color: [1, 1, 1, 0.9]
+                                    text_color: [1, 1, 1, 0.85]
                                     size_hint_y: None
                                     height: dp(16)
 
@@ -403,15 +416,17 @@ KV = '''
                         size: dp(260), dp(32)
                         radius: [self.height / 2, self.height / 2, self.height / 2, self.height / 2]
                         theme_bg_color: "Custom"
-                        md_bg_color: app.surface_high
+                        md_bg_color: app.surface_lowest
+                        line_color: app.surface_container
+                        line_width: 1
                         padding: dp(12), dp(4)
                         spacing: dp(6)
                         pos_hint: {"center_x": .5}
 
                         MDIcon:
-                            icon: "gesture-tap"
+                            icon: "gesture-tap-hold"
                             theme_text_color: "Custom"
-                            text_color: app.text_secondary
+                            text_color: app.blue
                             font_size: "16sp"
                             size_hint_x: None
                             width: dp(16)
@@ -419,7 +434,7 @@ KV = '''
 
                         MDLabel:
                             text: root.sos_status_text
-                            font_size: "10sp"
+                            font_size: "11sp"
                             bold: True
                             adaptive_size: True
                             theme_text_color: "Custom"
@@ -453,16 +468,18 @@ KV = '''
                     radius: [16, 16, 16, 16]
                     elevation: 0
                     theme_bg_color: "Custom"
-                    md_bg_color: app.surface_low
+                    md_bg_color: app.surface_lowest
+                    line_color: app.surface_container
+                    line_width: 1
                     size_hint_y: None
-                    height: dp(112)
+                    height: dp(100)
 
                     MDCard:
                         size_hint: None, None
                         size: dp(40), dp(40)
                         radius: [10, 10, 10, 10]
                         theme_bg_color: "Custom"
-                        md_bg_color: app.surface_highest
+                        md_bg_color: app.surface_low
                         pos_hint: {"center_y": .5}
 
                         MDIcon:
@@ -475,7 +492,7 @@ KV = '''
                     MDLabel:
                         markup: True
                         text: root.defense_summary_markup
-                        font_size: "14sp"
+                        font_size: "13sp"
                         pos_hint: {"center_y": .5}
 
         # BOTTOM NAVIGATION BAR
@@ -505,7 +522,7 @@ KV = '''
                         size: dp(54), dp(28)
                         radius: [14, 14, 14, 14]
                         theme_bg_color: "Custom"
-                        md_bg_color: app.surface_highest
+                        md_bg_color: app.surface_container
                         pos_hint: {"center_x": .5}
 
                         MDIcon:
@@ -654,7 +671,9 @@ KV = '''
                 size: dp(42), dp(42)
                 radius: [12, 12, 12, 12]
                 theme_bg_color: "Custom"
-                md_bg_color: app.black
+                md_bg_color: app.surface_lowest
+                line_color: app.surface_container
+                line_width: 1
                 padding: dp(8)
                 pos_hint: {"center_y": .5}
 
@@ -662,21 +681,23 @@ KV = '''
                     icon: "shield-outline"
                     pos_hint: {"center_x": .5, "center_y": .5}
                     theme_text_color: "Custom"
-                    text_color: app.white
+                    text_color: app.blue
                     font_size: "24sp"
 
             MDLabel:
                 markup: True
-                text: "[b][size=10sp][color=0051D5]ALERTX[/color][/size][/b]  [size=14sp][color=0051D5]•[/color][/size]\\n[b][size=18sp][color=0B1C30]Emergency Contacts[/color][/size][/b]"
+                text: "[b][size=12sp][color=38BDF8]ALERTX[/color][/size]   [color=64748B]•[/color]   [size=16sp][color=F8FAFC]Emergency Contacts[/color][/b]"
                 size_hint_x: 1
                 pos_hint: {"center_y": .5}
 
             MDCard:
                 size_hint: None, None
-                size: dp(96), dp(28)
-                radius: [14, 14, 14, 14]
+                size: dp(96), dp(30)
+                radius: [15, 15, 15, 15]
                 theme_bg_color: "Custom"
-                md_bg_color: app.surface_container
+                md_bg_color: app.surface_lowest
+                line_color: app.surface_container
+                line_width: 1
                 padding: dp(8), dp(4)
                 spacing: dp(6)
                 pos_hint: {"center_y": .5}
@@ -687,29 +708,31 @@ KV = '''
                     radius: [4, 4, 4, 4]
                     pos_hint: {"center_y": .5}
                     theme_bg_color: "Custom"
-                    md_bg_color: app.blue
+                    md_bg_color: app.green
 
                 MDLabel:
                     text: "ONLINE"
                     font_size: "11sp"
                     bold: True
                     theme_text_color: "Custom"
-                    text_color: app.blue
+                    text_color: app.green
                     pos_hint: {"center_y": .5}
 
             MDCard:
                 size_hint: None, None
-                size: dp(34), dp(34)
-                radius: [17, 17, 17, 17]
+                size: dp(36), dp(36)
+                radius: [18, 18, 18, 18]
                 theme_bg_color: "Custom"
-                md_bg_color: app.black
+                md_bg_color: app.surface_lowest
+                line_color: app.surface_container
+                line_width: 1
                 pos_hint: {"center_y": .5}
 
                 MDIcon:
                     icon: "account"
                     pos_hint: {"center_x": .5, "center_y": .5}
                     theme_text_color: "Custom"
-                    text_color: app.white
+                    text_color: app.text_primary
                     font_size: "20sp"
 
         # SCROLLABLE CONTENT
@@ -727,7 +750,7 @@ KV = '''
                 MDBoxLayout:
                     orientation: "vertical"
                     size_hint_y: None
-                    height: dp(80)
+                    height: dp(72)
                     spacing: dp(4)
 
                     MDBoxLayout:
@@ -754,7 +777,7 @@ KV = '''
                         markup: True
                         text: root.intro_markup
                         size_hint_y: None
-                        height: dp(54)
+                        height: dp(48)
 
                 # AUTOMATED SOS PROTOCOL INFO CARD
                 MDCard:
@@ -764,20 +787,22 @@ KV = '''
                     radius: [16, 16, 16, 16]
                     elevation: 0
                     theme_bg_color: "Custom"
-                    md_bg_color: app.surface_low
+                    md_bg_color: app.surface_lowest
+                    line_color: app.surface_container
+                    line_width: 1
                     size_hint_y: None
-                    height: dp(100)
+                    height: dp(94)
 
                     MDCard:
                         size_hint: None, None
                         size: dp(42), dp(42)
                         radius: [10, 10, 10, 10]
                         theme_bg_color: "Custom"
-                        md_bg_color: app.surface_highest
+                        md_bg_color: app.surface_low
                         pos_hint: {"center_y": .5}
 
                         MDIcon:
-                            icon: "email-outline"
+                            icon: "email-fast-outline"
                             pos_hint: {"center_x": .5, "center_y": .5}
                             theme_text_color: "Custom"
                             text_color: app.blue
@@ -786,7 +811,7 @@ KV = '''
                     MDLabel:
                         markup: True
                         text: root.automated_sos_markup
-                        font_size: "14sp"
+                        font_size: "13sp"
                         pos_hint: {"center_y": .5}
 
                 # ACTIVE GUARDIAN CARD
@@ -811,10 +836,12 @@ KV = '''
 
                         MDCard:
                             size_hint: None, None
-                            size: dp(86), dp(22)
-                            radius: [11, 11, 11, 11]
+                            size: dp(86), dp(24)
+                            radius: [12, 12, 12, 12]
                             theme_bg_color: "Custom"
-                            md_bg_color: app.surface_highest
+                            md_bg_color: app.green_light
+                            line_color: app.green
+                            line_width: 1
                             padding: dp(8), dp(2)
                             spacing: dp(4)
 
@@ -824,14 +851,14 @@ KV = '''
                                 radius: [3, 3, 3, 3]
                                 pos_hint: {"center_y": .5}
                                 theme_bg_color: "Custom"
-                                md_bg_color: app.blue
+                                md_bg_color: app.green
 
                             MDLabel:
                                 text: "Primary"
                                 font_size: "11sp"
                                 bold: True
                                 theme_text_color: "Custom"
-                                text_color: app.blue
+                                text_color: app.green
 
                     MDCard:
                         orientation: "vertical"
@@ -841,6 +868,8 @@ KV = '''
                         elevation: 1
                         theme_bg_color: "Custom"
                         md_bg_color: app.surface_lowest
+                        line_color: app.surface_container
+                        line_width: 1
                         size_hint_y: None
                         height: dp(136)
 
@@ -854,7 +883,9 @@ KV = '''
                                 size: dp(48), dp(48)
                                 radius: [24, 24, 24, 24]
                                 theme_bg_color: "Custom"
-                                md_bg_color: app.primary_container
+                                md_bg_color: app.surface_low
+                                line_color: app.blue
+                                line_width: 1
                                 pos_hint: {"center_y": .5}
 
                                 MDLabel:
@@ -914,7 +945,7 @@ KV = '''
                                 MDIcon:
                                     icon: "check-circle"
                                     theme_text_color: "Custom"
-                                    text_color: app.blue
+                                    text_color: app.green
                                     font_size: "18sp"
 
                                 MDLabel:
@@ -922,14 +953,16 @@ KV = '''
                                     font_size: "12sp"
                                     bold: True
                                     theme_text_color: "Custom"
-                                    text_color: app.blue
+                                    text_color: app.green
 
                             ClickableCard:
                                 size_hint: None, None
                                 size: dp(120), dp(32)
                                 radius: [16, 16, 16, 16]
                                 theme_bg_color: "Custom"
-                                md_bg_color: app.surface_container
+                                md_bg_color: app.surface_low
+                                line_color: app.surface_container
+                                line_width: 1
                                 padding: dp(8), dp(4)
                                 spacing: dp(4)
                                 on_release: root.test_alert()
@@ -958,6 +991,8 @@ KV = '''
                     elevation: 1
                     theme_bg_color: "Custom"
                     md_bg_color: app.surface_lowest
+                    line_color: app.surface_container
+                    line_width: 1
                     size_hint_y: None
                     height: dp(336)
 
@@ -998,9 +1033,9 @@ KV = '''
                         spacing: dp(8)
 
                         MDIcon:
-                            icon: "badge-account-horizontal"
+                            icon: "account-details"
                             theme_text_color: "Custom"
-                            text_color: app.text_secondary
+                            text_color: app.blue
                             font_size: "20sp"
                             pos_hint: {"center_y": .5}
 
@@ -1010,7 +1045,8 @@ KV = '''
                             hint_text: "Full Name"
                             cursor_color: app.blue
                             background_color: [0, 0, 0, 0]
-                            foreground_color: [0.04, 0.11, 0.19, 1]
+                            foreground_color: [0.97, 0.98, 0.99, 1]
+                            hint_text_color: [0.39, 0.45, 0.54, 1]
                             font_size: "15sp"
                             multiline: False
                             pos_hint: {"center_y": .5}
@@ -1034,7 +1070,7 @@ KV = '''
                             size_hint_x: 0.25
                             radius: [8, 8, 8, 8]
                             theme_bg_color: "Custom"
-                            md_bg_color: app.black if root.selected_relation == "Parent" else app.surface_low
+                            md_bg_color: app.blue if root.selected_relation == "Parent" else app.surface_low
                             on_release: root.select_relation("Parent")
 
                             MDLabel:
@@ -1043,13 +1079,13 @@ KV = '''
                                 bold: True
                                 halign: "center"
                                 theme_text_color: "Custom"
-                                text_color: app.white if root.selected_relation == "Parent" else app.text_secondary
+                                text_color: app.black if root.selected_relation == "Parent" else app.text_secondary
 
                         ClickableCard:
                             size_hint_x: 0.25
                             radius: [8, 8, 8, 8]
                             theme_bg_color: "Custom"
-                            md_bg_color: app.black if root.selected_relation == "Spouse" else app.surface_low
+                            md_bg_color: app.blue if root.selected_relation == "Spouse" else app.surface_low
                             on_release: root.select_relation("Spouse")
 
                             MDLabel:
@@ -1058,13 +1094,13 @@ KV = '''
                                 bold: True
                                 halign: "center"
                                 theme_text_color: "Custom"
-                                text_color: app.white if root.selected_relation == "Spouse" else app.text_secondary
+                                text_color: app.black if root.selected_relation == "Spouse" else app.text_secondary
 
                         ClickableCard:
                             size_hint_x: 0.25
                             radius: [8, 8, 8, 8]
                             theme_bg_color: "Custom"
-                            md_bg_color: app.black if root.selected_relation == "Sibling" else app.surface_low
+                            md_bg_color: app.blue if root.selected_relation == "Sibling" else app.surface_low
                             on_release: root.select_relation("Sibling")
 
                             MDLabel:
@@ -1073,13 +1109,13 @@ KV = '''
                                 bold: True
                                 halign: "center"
                                 theme_text_color: "Custom"
-                                text_color: app.white if root.selected_relation == "Sibling" else app.text_secondary
+                                text_color: app.black if root.selected_relation == "Sibling" else app.text_secondary
 
                         ClickableCard:
                             size_hint_x: 0.25
                             radius: [8, 8, 8, 8]
                             theme_bg_color: "Custom"
-                            md_bg_color: app.black if root.selected_relation == "Friend" else app.surface_low
+                            md_bg_color: app.blue if root.selected_relation == "Friend" else app.surface_low
                             on_release: root.select_relation("Friend")
 
                             MDLabel:
@@ -1088,7 +1124,7 @@ KV = '''
                                 bold: True
                                 halign: "center"
                                 theme_text_color: "Custom"
-                                text_color: app.white if root.selected_relation == "Friend" else app.text_secondary
+                                text_color: app.black if root.selected_relation == "Friend" else app.text_secondary
 
                     # Field 3: Phone Number
                     MDLabel:
@@ -1133,7 +1169,8 @@ KV = '''
                             input_type: "tel"
                             cursor_color: app.blue
                             background_color: [0, 0, 0, 0]
-                            foreground_color: [0.04, 0.11, 0.19, 1]
+                            foreground_color: [0.97, 0.98, 0.99, 1]
+                            hint_text_color: [0.39, 0.45, 0.54, 1]
                             font_size: "15sp"
                             multiline: False
                             pos_hint: {"center_y": .5}
@@ -1141,7 +1178,7 @@ KV = '''
                         MDIcon:
                             icon: "check-circle"
                             theme_text_color: "Custom"
-                            text_color: app.blue
+                            text_color: app.green
                             font_size: "20sp"
                             pos_hint: {"center_y": .5}
 
@@ -1151,7 +1188,7 @@ KV = '''
                         height: dp(50)
                         radius: [12, 12, 12, 12]
                         theme_bg_color: "Custom"
-                        md_bg_color: app.black
+                        md_bg_color: app.blue
                         padding: dp(12), dp(4)
                         spacing: dp(8)
                         on_release: root.save_contact()
@@ -1163,7 +1200,7 @@ KV = '''
                             MDIcon:
                                 icon: "content-save"
                                 theme_text_color: "Custom"
-                                text_color: app.white
+                                text_color: app.black
                                 font_size: "20sp"
                                 pos_hint: {"center_y": .5}
 
@@ -1172,7 +1209,7 @@ KV = '''
                                 font_size: "15sp"
                                 bold: True
                                 theme_text_color: "Custom"
-                                text_color: app.white
+                                text_color: app.black
                                 pos_hint: {"center_y": .5}
 
                 # CONTACT PERMISSIONS CARD
@@ -1184,6 +1221,8 @@ KV = '''
                     elevation: 0
                     theme_bg_color: "Custom"
                     md_bg_color: app.surface_lowest
+                    line_color: app.surface_container
+                    line_width: 1
                     size_hint_y: None
                     height: dp(138)
 
@@ -1206,11 +1245,11 @@ KV = '''
                             size: dp(36), dp(36)
                             radius: [18, 18, 18, 18]
                             theme_bg_color: "Custom"
-                            md_bg_color: app.surface_highest
+                            md_bg_color: app.surface_low
                             pos_hint: {"center_y": .5}
 
                             MDIcon:
-                                icon: "map-marker"
+                                icon: "map-marker-radius"
                                 pos_hint: {"center_x": .5, "center_y": .5}
                                 theme_text_color: "Custom"
                                 text_color: app.blue
@@ -1243,7 +1282,7 @@ KV = '''
                             size: dp(36), dp(36)
                             radius: [18, 18, 18, 18]
                             theme_bg_color: "Custom"
-                            md_bg_color: app.surface_highest
+                            md_bg_color: app.surface_low
                             pos_hint: {"center_y": .5}
 
                             MDIcon:
@@ -1344,7 +1383,7 @@ KV = '''
                         size: dp(54), dp(28)
                         radius: [14, 14, 14, 14]
                         theme_bg_color: "Custom"
-                        md_bg_color: app.surface_highest
+                        md_bg_color: app.surface_container
                         pos_hint: {"center_x": .5}
 
                         MDIcon:
@@ -1457,7 +1496,9 @@ KV = '''
                 size: dp(42), dp(42)
                 radius: [12, 12, 12, 12]
                 theme_bg_color: "Custom"
-                md_bg_color: app.black
+                md_bg_color: app.surface_lowest
+                line_color: app.surface_container
+                line_width: 1
                 padding: dp(8)
                 pos_hint: {"center_y": .5}
 
@@ -1465,28 +1506,30 @@ KV = '''
                     icon: "shield-outline"
                     pos_hint: {"center_x": .5, "center_y": .5}
                     theme_text_color: "Custom"
-                    text_color: app.white
+                    text_color: app.blue
                     font_size: "24sp"
 
             MDLabel:
                 markup: True
-                text: "[b][size=10sp][color=0051D5]ALERTX[/color][/size][/b]  [size=14sp][color=0051D5]•[/color][/size]\\n[b][size=18sp][color=0B1C30]Safety & SOS Settings[/color][/size][/b]"
+                text: "[b][size=12sp][color=38BDF8]ALERTX[/color][/size]   [color=64748B]•[/color]   [size=16sp][color=F8FAFC]Safety & SOS Settings[/color][/b]"
                 size_hint_x: 1
                 pos_hint: {"center_y": .5}
 
             MDCard:
                 size_hint: None, None
-                size: dp(34), dp(34)
-                radius: [17, 17, 17, 17]
+                size: dp(36), dp(36)
+                radius: [18, 18, 18, 18]
                 theme_bg_color: "Custom"
-                md_bg_color: app.black
+                md_bg_color: app.surface_lowest
+                line_color: app.surface_container
+                line_width: 1
                 pos_hint: {"center_y": .5}
 
                 MDIcon:
                     icon: "account"
                     pos_hint: {"center_x": .5, "center_y": .5}
                     theme_text_color: "Custom"
-                    text_color: app.white
+                    text_color: app.text_primary
                     font_size: "20sp"
 
         ScrollView:
@@ -1507,6 +1550,8 @@ KV = '''
                     elevation: 1
                     theme_bg_color: "Custom"
                     md_bg_color: app.surface_lowest
+                    line_color: app.surface_container
+                    line_width: 1
                     size_hint_y: None
                     height: dp(236)
 
@@ -1523,7 +1568,7 @@ KV = '''
                         padding: dp(12)
                         radius: [10, 10, 10, 10]
                         theme_bg_color: "Custom"
-                        md_bg_color: app.surface_container
+                        md_bg_color: app.surface_low
                         size_hint_y: None
                         height: dp(112)
 
@@ -1540,6 +1585,8 @@ KV = '''
                         radius: [10, 10, 10, 10]
                         theme_bg_color: "Custom"
                         md_bg_color: app.surface_low
+                        line_color: app.surface_container
+                        line_width: 1
                         on_release: root.reset_template()
 
                         MDLabel:
@@ -1559,6 +1606,8 @@ KV = '''
                     elevation: 1
                     theme_bg_color: "Custom"
                     md_bg_color: app.surface_lowest
+                    line_color: app.surface_container
+                    line_width: 1
                     size_hint_y: None
                     height: dp(290)
 
@@ -1645,6 +1694,8 @@ KV = '''
                         radius: [10, 10, 10, 10]
                         theme_bg_color: "Custom"
                         md_bg_color: app.surface_low
+                        line_color: app.surface_container
+                        line_width: 1
                         on_release: root.request_all_permissions()
 
                         MDBoxLayout:
@@ -1675,6 +1726,8 @@ KV = '''
                     elevation: 1
                     theme_bg_color: "Custom"
                     md_bg_color: app.surface_lowest
+                    line_color: app.surface_container
+                    line_width: 1
                     size_hint_y: None
                     height: dp(210)
 
@@ -1746,7 +1799,9 @@ KV = '''
                     radius: [14, 14, 14, 14]
                     elevation: 0
                     theme_bg_color: "Custom"
-                    md_bg_color: app.surface_low
+                    md_bg_color: app.surface_lowest
+                    line_color: app.surface_container
+                    line_width: 1
                     size_hint_y: None
                     height: dp(64)
 
@@ -1890,7 +1945,7 @@ KV = '''
                         size: dp(54), dp(28)
                         radius: [14, 14, 14, 14]
                         theme_bg_color: "Custom"
-                        md_bg_color: app.surface_highest
+                        md_bg_color: app.surface_container
                         pos_hint: {"center_x": .5}
 
                         MDIcon:
@@ -1966,7 +2021,9 @@ KV = '''
                 size: dp(38), dp(38)
                 radius: [19, 19, 19, 19]
                 theme_bg_color: "Custom"
-                md_bg_color: app.surface_low
+                md_bg_color: app.surface_lowest
+                line_color: app.surface_container
+                line_width: 1
                 pos_hint: {"center_y": .5}
                 on_release: root.cancel_emergency()
 
@@ -1978,7 +2035,7 @@ KV = '''
                     font_size: "22sp"
 
             MDLabel:
-                text: "Active Sos Dispatch"
+                text: "Active SOS Dispatch"
                 font_size: "18sp"
                 bold: True
                 theme_text_color: "Custom"
@@ -1992,14 +2049,16 @@ KV = '''
                 size: dp(34), dp(34)
                 radius: [17, 17, 17, 17]
                 theme_bg_color: "Custom"
-                md_bg_color: app.black
+                md_bg_color: app.surface_lowest
+                line_color: app.surface_container
+                line_width: 1
                 pos_hint: {"center_y": .5}
 
                 MDIcon:
                     icon: "account"
                     pos_hint: {"center_x": .5, "center_y": .5}
                     theme_text_color: "Custom"
-                    text_color: app.white
+                    text_color: app.text_primary
                     font_size: "18sp"
 
         ScrollView:
@@ -2021,6 +2080,8 @@ KV = '''
                     elevation: 2
                     theme_bg_color: "Custom"
                     md_bg_color: app.crimson_dark
+                    line_color: app.crimson
+                    line_width: 1
                     size_hint_y: None
                     height: dp(132)
 
@@ -2097,6 +2158,8 @@ KV = '''
                     elevation: 1
                     theme_bg_color: "Custom"
                     md_bg_color: app.surface_lowest
+                    line_color: app.surface_container
+                    line_width: 1
                     size_hint_y: None
                     height: dp(286)
 
@@ -2110,7 +2173,7 @@ KV = '''
                             size: dp(32), dp(32)
                             radius: [8, 8, 8, 8]
                             theme_bg_color: "Custom"
-                            md_bg_color: app.surface_highest
+                            md_bg_color: app.surface_low
                             pos_hint: {"center_y": .5}
 
                             MDIcon:
@@ -2134,7 +2197,7 @@ KV = '''
                             size: dp(150), dp(26)
                             radius: [13, 13, 13, 13]
                             theme_bg_color: "Custom"
-                            md_bg_color: app.surface_low
+                            md_bg_color: [0.05, 0.29, 0.43, 0.4]
                             padding: dp(6), dp(2)
                             spacing: dp(4)
                             pos_hint: {"center_y": .5}
@@ -2162,7 +2225,7 @@ KV = '''
                         height: dp(80)
                         radius: [12, 12, 12, 12]
                         theme_bg_color: "Custom"
-                        md_bg_color: app.surface_container
+                        md_bg_color: app.surface_low
                         padding: dp(10)
 
                         MDBoxLayout:
@@ -2277,6 +2340,8 @@ KV = '''
                     elevation: 1
                     theme_bg_color: "Custom"
                     md_bg_color: app.surface_lowest
+                    line_color: app.surface_container
+                    line_width: 1
                     size_hint_y: None
                     height: dp(278)
 
@@ -2290,7 +2355,7 @@ KV = '''
                             size: dp(32), dp(32)
                             radius: [8, 8, 8, 8]
                             theme_bg_color: "Custom"
-                            md_bg_color: app.surface_high
+                            md_bg_color: app.surface_low
                             pos_hint: {"center_y": .5}
 
                             MDIcon:
@@ -2314,7 +2379,7 @@ KV = '''
                             size: dp(132), dp(26)
                             radius: [13, 13, 13, 13]
                             theme_bg_color: "Custom"
-                            md_bg_color: app.surface_low
+                            md_bg_color: app.green_light
                             padding: dp(6), dp(2)
                             spacing: dp(4)
                             pos_hint: {"center_y": .5}
@@ -2322,7 +2387,7 @@ KV = '''
                             MDIcon:
                                 icon: "check-all"
                                 theme_text_color: "Custom"
-                                text_color: app.blue
+                                text_color: app.green
                                 font_size: "15sp"
                                 pos_hint: {"center_y": .5}
 
@@ -2331,7 +2396,7 @@ KV = '''
                                 font_size: "10sp"
                                 bold: True
                                 theme_text_color: "Custom"
-                                text_color: app.blue
+                                text_color: app.green
                                 pos_hint: {"center_y": .5}
 
                     # Recipient row
@@ -2349,7 +2414,9 @@ KV = '''
                             size: dp(32), dp(32)
                             radius: [16, 16, 16, 16]
                             theme_bg_color: "Custom"
-                            md_bg_color: app.surface_highest
+                            md_bg_color: app.surface_lowest
+                            line_color: app.blue
+                            line_width: 1
                             pos_hint: {"center_y": .5}
 
                             MDLabel:
@@ -2391,7 +2458,7 @@ KV = '''
                         height: dp(80)
                         radius: [8, 8, 8, 8]
                         theme_bg_color: "Custom"
-                        md_bg_color: app.surface_container
+                        md_bg_color: app.surface_low
                         padding: dp(8)
 
                         MDLabel:
@@ -2425,6 +2492,8 @@ KV = '''
                     elevation: 1
                     theme_bg_color: "Custom"
                     md_bg_color: app.surface_lowest
+                    line_color: app.surface_container
+                    line_width: 1
                     size_hint_y: None
                     height: dp(146)
 
@@ -2438,7 +2507,7 @@ KV = '''
                             size: dp(32), dp(32)
                             radius: [8, 8, 8, 8]
                             theme_bg_color: "Custom"
-                            md_bg_color: app.surface_high
+                            md_bg_color: app.surface_low
                             pos_hint: {"center_y": .5}
 
                             MDIcon:
@@ -2463,6 +2532,8 @@ KV = '''
                             radius: [13, 13, 13, 13]
                             theme_bg_color: "Custom"
                             md_bg_color: app.crimson_light
+                            line_color: app.crimson
+                            line_width: 1
                             padding: dp(6), dp(2)
                             spacing: dp(4)
                             pos_hint: {"center_y": .5}
@@ -2470,7 +2541,7 @@ KV = '''
                             MDIcon:
                                 icon: "timer-outline"
                                 theme_text_color: "Custom"
-                                text_color: app.crimson
+                                text_color: app.crimson_coral
                                 font_size: "15sp"
                                 pos_hint: {"center_y": .5}
 
@@ -2479,7 +2550,7 @@ KV = '''
                                 font_size: "10sp"
                                 bold: True
                                 theme_text_color: "Custom"
-                                text_color: app.crimson
+                                text_color: app.crimson_coral
                                 pos_hint: {"center_y": .5}
 
                     MDBoxLayout:
@@ -2566,6 +2637,8 @@ KV = '''
                         elevation: 2
                         theme_bg_color: "Custom"
                         md_bg_color: app.surface_lowest
+                        line_color: app.crimson
+                        line_width: 1
                         on_touch_down: if self.collide_point(*args[1].pos): root.on_cancel_press()
                         on_touch_up: root.on_cancel_release()
 
@@ -2611,35 +2684,35 @@ KV = '''
 class AlertXApp(MDApp):
     """Main AlertX Personal Safety Application."""
 
-    # Color tokens from guardian_modern/DESIGN.md
-    bg_surface = ColorProperty(get_color_from_hex("#F8F9FF"))
-    surface_lowest = ColorProperty(get_color_from_hex("#FFFFFF"))
-    surface_low = ColorProperty(get_color_from_hex("#EFF4FF"))
-    surface_container = ColorProperty(get_color_from_hex("#E5EEFF"))
-    surface_high = ColorProperty(get_color_from_hex("#DCE9FF"))
-    surface_highest = ColorProperty(get_color_from_hex("#D3E4FE"))
+    # Cyber Guardian Dark Safety Theme Color Tokens
+    bg_surface = ColorProperty(get_color_from_hex("#0F172A"))
+    surface_lowest = ColorProperty(get_color_from_hex("#1E293B"))
+    surface_low = ColorProperty(get_color_from_hex("#0F172A"))
+    surface_container = ColorProperty(get_color_from_hex("#334155"))
+    surface_high = ColorProperty(get_color_from_hex("#475569"))
+    surface_highest = ColorProperty(get_color_from_hex("#0284C7"))
 
-    text_primary = ColorProperty(get_color_from_hex("#0B1C30"))
-    text_secondary = ColorProperty(get_color_from_hex("#45464D"))
+    text_primary = ColorProperty(get_color_from_hex("#F8FAFC"))
+    text_secondary = ColorProperty(get_color_from_hex("#94A3B8"))
 
-    black = ColorProperty(get_color_from_hex("#000000"))
+    black = ColorProperty(get_color_from_hex("#0B0F19"))
     white = ColorProperty(get_color_from_hex("#FFFFFF"))
-    blue = ColorProperty(get_color_from_hex("#0051D5"))
-    primary_container = ColorProperty(get_color_from_hex("#131B2E"))
+    blue = ColorProperty(get_color_from_hex("#38BDF8"))
+    primary_container = ColorProperty(get_color_from_hex("#1E293B"))
 
-    crimson = ColorProperty(get_color_from_hex("#DC2626"))
-    crimson_dark = ColorProperty(get_color_from_hex("#410002"))
-    crimson_coral = ColorProperty(get_color_from_hex("#F63A35"))
-    crimson_light = ColorProperty(get_color_from_hex("#FFDAD6"))
+    crimson = ColorProperty(get_color_from_hex("#EF4444"))
+    crimson_dark = ColorProperty(get_color_from_hex("#450A0A"))
+    crimson_coral = ColorProperty(get_color_from_hex("#F87171"))
+    crimson_light = ColorProperty(get_color_from_hex("#7F1D1D"))
 
-    green = ColorProperty(get_color_from_hex("#059669"))
-    green_light = ColorProperty(get_color_from_hex("#ECFDF5"))
+    green = ColorProperty(get_color_from_hex("#10B981"))
+    green_light = ColorProperty(get_color_from_hex("#064E3B"))
 
     def build(self):
         import traceback
         try:
             self.title = APP_NAME
-            self.theme_cls.theme_style = "Light"
+            self.theme_cls.theme_style = "Dark"
 
             try:
                 Window.softinput_mode = "below_target"

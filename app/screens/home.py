@@ -26,8 +26,8 @@ class HomeScreen(Screen):
     contact_markup = StringProperty("")
     location_markup = StringProperty("")
     banner_markup = StringProperty(
-        "[b][size=17sp][color=0B1C30]ALERTX[/color][/size][/b]   [b][size=10sp][color=0051D5]PRO[/color][/size][/b]\n"
-        "[size=12sp][color=45464D]Personal Safety Guard[/color][/size]"
+        "[b][size=16sp][color=F8FAFC]ALERTX[/color][/size][/b]   [b][size=10sp][color=38BDF8]PRO[/color][/size][/b]\n"
+        "[size=11sp][color=94A3B8]Personal Safety Guard[/color][/size]"
     )
 
     _sos_hold_event = None
@@ -57,14 +57,14 @@ class HomeScreen(Screen):
             )
 
         self.defense_summary_markup = (
-            f"[b][color=0B1C30]System Defense Ready[/color][/b]\n"
-            f"[size=11sp][color=45464D]{self.defense_summary}[/color][/size]"
+            f"[b][color=F8FAFC]System Defense Ready[/color][/b]\n"
+            f"[size=11sp][color=94A3B8]{self.defense_summary}[/color][/size]"
         )
 
         self.contact_markup = (
-            f"[b][size=10sp][color=45464D]EMERGENCY CONTACT[/color][/size][/b]\n"
-            f"[b][size=15sp][color=0B1C30]{self.contact_name}[/color][/size][/b]\n"
-            f"[size=12sp][color=45464D]{self.contact_phone}[/color][/size]"
+            f"[b][size=10sp][color=94A3B8]EMERGENCY CONTACT[/color][/size][/b]\n"
+            f"[b][size=14sp][color=F8FAFC]{self.contact_name}[/color][/size][/b]\n"
+            f"[size=11sp][color=94A3B8]{self.contact_phone}[/color][/size]"
         )
 
         # Telemetry updates
@@ -80,9 +80,9 @@ class HomeScreen(Screen):
                 self.location_subtitle = "Acquiring GPS fix..."
 
         self.location_markup = (
-            f"[b][size=10sp][color=45464D]LOCATION SERVICES[/color][/size][/b]\n"
-            f"[b][size=15sp][color=0B1C30]{self.location_title}[/color][/size][/b]\n"
-            f"[size=12sp][color=45464D]{self.location_subtitle}[/color][/size]"
+            f"[b][size=10sp][color=94A3B8]LOCATION SERVICES[/color][/size][/b]\n"
+            f"[b][size=14sp][color=F8FAFC]{self.location_title}[/color][/size][/b]\n"
+            f"[size=11sp][color=94A3B8]{self.location_subtitle}[/color][/size]"
         )
 
         if hasattr(app, "api") and app.api:

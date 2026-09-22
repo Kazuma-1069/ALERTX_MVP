@@ -20,8 +20,8 @@ class EmergencyScreen(Screen):
     sms_badge = StringProperty("Delivered")
     sms_payload = StringProperty("EMERGENCY! I need immediate help.")
     sms_payload_markup = StringProperty(
-        "[b][size=9sp][color=45464D]DISPATCHED PAYLOAD[/color][/size][/b]\n"
-        "[i][size=11sp][color=0B1C30]EMERGENCY! I need immediate help.[/color][/size][/i]"
+        "[b][size=9sp][color=94A3B8]DISPATCHED PAYLOAD[/color][/size][/b]\n"
+        "[i][size=11sp][color=F8FAFC]EMERGENCY! I need immediate help.[/color][/size][/i]"
     )
     recipient_name = StringProperty("Sarah Jenkins")
     recipient_initials = StringProperty("SJ")
@@ -76,8 +76,8 @@ class EmergencyScreen(Screen):
         self.sms_payload = result.get("dispatched_payload", "Emergency alert dispatched.")
         clean_payload = self.sms_payload.replace("🚨 ", "")
         self.sms_payload_markup = (
-            f"[b][size=9sp][color=45464D]DISPATCHED PAYLOAD[/color][/size][/b]\n"
-            f"[i][size=11sp][color=0B1C30]{clean_payload}[/color][/size][/i]"
+            f"[b][size=9sp][color=94A3B8]DISPATCHED PAYLOAD[/color][/size][/b]\n"
+            f"[i][size=11sp][color=F8FAFC]{clean_payload}[/color][/size][/i]"
         )
 
         name = result.get("recipient_name", "Sarah Jenkins")
